@@ -10,9 +10,9 @@ namespace WebAPI.Controllers
     public class AuthController(IMediator mediator) : ControllerBase
     {
         [HttpPost("Login")]
-        public IActionResult Login([FromBody]LoginCommand command)
+        public async Task<IActionResult> LoginAsync([FromBody]LoginCommand command)
         {
-            var response = mediator.Send(command);
+            var response = await mediator.Send(command);
             return Ok(response);
         }
     }
