@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Core.Application.Security;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -37,6 +38,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                .WithOne(cu => cu.User)
                .HasForeignKey(cu => cu.UserId);
 
+
+        byte[] passwordHash, passwordSalt;
+        HashingHelper.CreatePasswordHash("1234", out passwordHash, out passwordSalt);
         //TODO: Add user seed
+        builder.HasData(new User
+        {
+            Id = Guid.NewGuid(),
+            Nickname = "Admin",
+            Email = "admin@mail.com",
+            PasswordHash = passwordHash,
+            PasswordSalt = passwordSalt,
+        });
     }
 }

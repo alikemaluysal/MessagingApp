@@ -22,6 +22,7 @@ public class ChatUserConfiguration : IEntityTypeConfiguration<ChatUser>
         builder.HasOne(cu => cu.Chat)
                .WithMany(c => c.ChatUsers)
                .HasForeignKey(cu => cu.ChatId);
+
         builder.HasOne(cu => cu.User)
                .WithMany(u => u.ChatUsers)
                .HasForeignKey(cu => cu.UserId);

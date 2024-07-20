@@ -23,9 +23,9 @@ public class MessageUserStateConfiguration : IEntityTypeConfiguration<MessageUse
 
         builder.HasOne(mus => mus.Message)
                .WithMany(m => m.MessageUserStates)
-               .HasForeignKey(mus => mus.MessageId);
+               .HasForeignKey(mus => mus.MessageId).OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(mus => mus.User)
                .WithMany(u => u.MessageUserStates)
-               .HasForeignKey(mus => mus.UserId);
+               .HasForeignKey(mus => mus.UserId).OnDelete(DeleteBehavior.NoAction);
     }
 }
