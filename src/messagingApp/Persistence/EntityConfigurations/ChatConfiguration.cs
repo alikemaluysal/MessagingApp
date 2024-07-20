@@ -19,6 +19,5 @@ public class ChatConfiguration : IEntityTypeConfiguration<Chat>
         builder.Property(c => c.DeletedDate).HasColumnName("DeletedDate");
 
         builder.HasQueryFilter(c => !c.DeletedDate.HasValue);
-
     }
 }

@@ -9,5 +9,6 @@ public class Chat : Entity<Guid>
     public string? InvitationCode { get; set; }
 
     public virtual ICollection<ChatUser> ChatUsers { get; set; } = default!;
+    public virtual ICollection<Message> Messages { get; set; } = default!;
 
 }
