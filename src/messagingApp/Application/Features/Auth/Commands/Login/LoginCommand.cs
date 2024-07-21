@@ -14,9 +14,9 @@ namespace Application.Features.Auth.Commands.Login;
 
 public class LoginCommand : IRequest<LoggedResponse>
 {
-    public string Email { get; set; }
-    public string Password { get; set; }
+    public UserForLoginDto Login { get; set; }
     public string IpAddress  { get; set; }
+
 
     internal class LoginCommandHandler : IRequestHandler<LoginCommand, LoggedResponse>
     {
@@ -33,13 +33,15 @@ public class LoginCommand : IRequest<LoggedResponse>
 
         public async Task<LoggedResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetAsync(predicate: u => u.Email == request.Email);
+            User? user = await _userRepository.GetAsync(predicate: u => u.Email == request.Login.Email);
 
             //business rule 1
             _authBusinessRules.UserShouldExist(user);
 
             //business rule 2
-            _authBusinessRules.PasswordShouldMatch(user!, request.Password);
+            _authBusinessRules.PasswordShouldMatch(user!, request.Login.Password);
+
+            await _authService.DeleteOldRefreshTokens(user!.Id);
 
             var acccessToken = _authService.CreateAccessToken(user!);
             var refreshToken = await _authService.CreateRefreshTokenAsync(user!, request.IpAddress);
@@ -51,5 +53,4 @@ public class LoginCommand : IRequest<LoggedResponse>
             };
         }
     }
-
 }
