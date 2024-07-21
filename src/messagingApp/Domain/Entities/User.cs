@@ -16,5 +16,6 @@ public class User : Entity<Guid>
     public virtual ICollection<ChatUser> ChatUsers { get; set; } = default!;
     public virtual ICollection<Message> Messages { get; set; } = default!;
     public virtual ICollection<MessageUserState> MessageUserStates { get; set; } = default!;
+    public virtual ICollection<UserRole> UserRoles { get; set; } = default!;
 
 }
