@@ -47,5 +47,11 @@ public class AuthBusinessRules(IUserRepository userRepository)
     {
         if (token.CreatedByIp != ipAddress)
             throw new Exception(ErrorMessages.IpDoesNotMatch);
+    }    
+    
+    public void VerificationCodeShouldBeCorrect(User user, string code)
+    {
+        if (user.VerificationCode is null || user.VerificationCode != code)
+            throw new Exception(ErrorMessages.InvalidVerificationCode);
     }
 }

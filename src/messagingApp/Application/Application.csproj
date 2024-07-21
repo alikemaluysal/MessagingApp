@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Auth\Commands\VerifyEmail\" />
     <Folder Include="Features\Auth\Commands\Revoke\" />
     <Folder Include="Features\Auth\Resources\" />
     <Folder Include="Features\Auth\Profiles\" />
