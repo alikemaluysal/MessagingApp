@@ -14,5 +14,6 @@ internal static class ErrorMessages
     internal const string TokenNotFound = "User not found";
     internal const string InvalidToken = "Invalid refresh token";
     internal const string IpDoesNotMatch = "Ip address does not match";
+    internal const string InvalidVerificationCode = "Invalid verification code";
 
 }
