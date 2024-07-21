@@ -64,4 +64,20 @@ public class AuthService : IAuthService
         await _refreshTokenRepository.AddAsync(newRefreshToken);
         return newRefreshToken;
     }
+
+    public async Task<RefreshToken> RotateRefreshToken(User user, RefreshToken refreshToken, string ipAddress)
+    {
+        refreshToken.Revoked = DateTime.UtcNow;
+        refreshToken.ReasonRevoked = "Replaced by new token";
+        var newRefreshToken = await CreateRefreshTokenAsync(user, ipAddress);
+        refreshToken.ReplacedByToken = newRefreshToken.Token;
+        await _refreshTokenRepository.UpdateAsync(refreshToken);
+        return newRefreshToken;
+    }
+
+    public async Task DeleteOldRefreshTokens(Guid userId)
+    {
+        var oldTokens = await _refreshTokenRepository.GetListAsync(t => t.UserId == userId && t.Revoked == null);
+        await _refreshTokenRepository.DeleteRangeAsync(oldTokens);
+    }
 }

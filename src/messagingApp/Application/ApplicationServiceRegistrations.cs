@@ -21,8 +21,8 @@ public static class ApplicationServiceRegistrations
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<AuthBusinessRules>();
 
-        //services.AddFluentValidation(f => f.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
-        services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+        services.AddFluentValidation(f => f.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+        //services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
         services.AddMediatR(configuration =>
         {
