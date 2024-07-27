@@ -6,7 +6,7 @@ public class GetByIdChatResponse
     public string Name { get; set; }
     public string? ImageIdentifier { get; set; }
     public string? InvitationCode { get; set; }
-    public IList<ChatUserDto> ChatUsers { get; set; }
+    public List<ChatUserDto> ChatUsers { get; set; }
 }
 
 public class ChatUserDto
