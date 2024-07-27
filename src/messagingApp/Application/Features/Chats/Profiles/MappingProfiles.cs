@@ -1,4 +1,5 @@
 ﻿using Application.Features.Chats.Commands.Create;
+using Application.Features.Chats.Commands.Join;
 using Application.Features.Chats.Queries;
 using Application.Features.Chats.Queries.GetList;
 using AutoMapper;
@@ -20,5 +21,7 @@ internal class MappingProfiles : Profile
 
 		CreateMap<CreateChatCommand, Chat>();
 		CreateMap<Chat, CreatedChatResponse>();
+
+		CreateMap<Chat, JoinedChatResponse>();
 	}
 }
