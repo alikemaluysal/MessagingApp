@@ -2,6 +2,7 @@
 using Application.Services.Repositories;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,28 @@ public class GetByIdChatQuery : IRequest<GetByIdChatResponse>
     {
         public async Task<GetByIdChatResponse> Handle(GetByIdChatQuery request, CancellationToken cancellationToken)
         {
-
-            var chat = await chatRepository.GetAsync(c => c.Id == request.ChatId);
+            var chat = await chatRepository.GetAsync(
+                
+                predicate: c => c.Id == request.ChatId,
+                include: i => i.Include(c => c.ChatUsers).ThenInclude(c => c.User)
+                
+                );
 
             chatBusinessRules.ChatShouldExistWhenSelected(chat);
 
 
-            return mapper.Map<GetByIdChatResponse>(chat);
+            var chatUsers = chat.ChatUsers.Select(cu => new ChatUserDto
+            {
+                UserId = cu.UserId,
+                Nickname = cu.User.Nickname
+            }).ToList();
+
+
+            var response =  mapper.Map<GetByIdChatResponse>(chat);
+            response.ChatUsers = chatUsers;
+
+            return response;
+
         }
     }
 }
