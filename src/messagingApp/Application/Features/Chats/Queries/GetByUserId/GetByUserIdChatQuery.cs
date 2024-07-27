@@ -20,7 +20,6 @@ public class GetByUserIdChatQuery : IRequest<List<GetByUserIdChatListItemDto>>
         {
             var chats = await chatRepository.GetChatsByUserIdAsync(request.UserId);
 
-
             var response = mapper.Map<List<GetByUserIdChatListItemDto>>(chats);
 
             return response;
