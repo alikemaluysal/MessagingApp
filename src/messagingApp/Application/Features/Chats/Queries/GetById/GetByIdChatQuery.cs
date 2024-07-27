@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Chats.Queries;
+namespace Application.Features.Chats.Queries.GetById;
 
 public class GetByIdChatQuery : IRequest<GetByIdChatResponse>
 {
@@ -19,24 +19,15 @@ public class GetByIdChatQuery : IRequest<GetByIdChatResponse>
         public async Task<GetByIdChatResponse> Handle(GetByIdChatQuery request, CancellationToken cancellationToken)
         {
             var chat = await chatRepository.GetAsync(
-                
+
                 predicate: c => c.Id == request.ChatId,
                 include: i => i.Include(c => c.ChatUsers).ThenInclude(c => c.User)
-                
+
                 );
 
             chatBusinessRules.ChatShouldExistWhenSelected(chat);
 
-
-            var chatUsers = chat.ChatUsers.Select(cu => new ChatUserDto
-            {
-                UserId = cu.UserId,
-                Nickname = cu.User.Nickname
-            }).ToList();
-
-
-            var response =  mapper.Map<GetByIdChatResponse>(chat);
-            response.ChatUsers = chatUsers;
+            var response = mapper.Map<GetByIdChatResponse>(chat);
 
             return response;
 

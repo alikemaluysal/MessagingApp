@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Chats.Queries;
+﻿namespace Application.Features.Chats.Queries.GetById;
 
 public class GetByIdChatResponse
 {

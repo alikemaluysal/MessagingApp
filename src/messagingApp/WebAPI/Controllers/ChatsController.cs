@@ -1,6 +1,8 @@
 ﻿using Application.Features.Chats.Commands.Create;
 using Application.Features.Chats.Commands.Join;
 using Application.Features.Chats.Queries;
+using Application.Features.Chats.Queries.GetById;
+using Application.Features.Chats.Queries.GetByUserId;
 using Application.Features.Chats.Queries.GetList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -37,6 +39,15 @@ public class ChatsController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
         var response = await mediator.Send(new GetByIdChatQuery() { ChatId = id});
+        return Ok(response);
+    }
+
+
+
+    [HttpGet("GetByUserId/{userId}")]
+    public async Task<IActionResult> GetByUserId([FromRoute] Guid userId)
+    {
+        var response = await mediator.Send(new GetByUserIdChatQuery() { UserId = userId });
         return Ok(response);
     }
 }
