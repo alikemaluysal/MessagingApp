@@ -24,7 +24,7 @@ public class FileApiAdapter(HttpClient httpClient, IConfiguration configuration)
 
     public async Task<Stream> GetFileAsync(Guid id)
     {
-        var response = await httpClient.GetAsync($"{fileApiUrl}/api/Upload");
+        var response = await httpClient.GetAsync($"{fileApiUrl}/api/File/Download?id={id}");
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStreamAsync();
     }
@@ -41,7 +41,7 @@ public class FileApiAdapter(HttpClient httpClient, IConfiguration configuration)
             FileName = file.FileName
         };
         content.Add(streamContent);
-        var response = await httpClient.PostAsync($"{fileApiUrl}/api/Upload", content);
+        var response = await httpClient.PostAsync($"{fileApiUrl}/api/File/Upload", content);
 
         response.EnsureSuccessStatusCode();
 

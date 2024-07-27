@@ -23,7 +23,7 @@ public class FileController : ControllerBase
         }
     }
 
-    [HttpPost("upload")]
+    [HttpPost("Upload")]
     public async Task<IActionResult> UploadFile([FromForm] FileModel model)
     {
         var file = model.File;
