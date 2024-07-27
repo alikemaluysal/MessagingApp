@@ -11,21 +11,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "corePackages", "corePackage
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "messagingApp", "messagingApp", "{F4C4B2E1-9254-4B0C-9507-B6EE8C930DB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMVC", "src\messagingApp\WebMVC\WebMVC.csproj", "{8D7C062A-495F-45E9-8D13-C6A7C3BFAD1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC", "src\messagingApp\WebMVC\WebMVC.csproj", "{8D7C062A-495F-45E9-8D13-C6A7C3BFAD1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "src\messagingApp\WebAPI\WebAPI.csproj", "{9799D2D6-2FC5-44F7-AC0C-DD12BEAEA284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "src\messagingApp\WebAPI\WebAPI.csproj", "{9799D2D6-2FC5-44F7-AC0C-DD12BEAEA284}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\messagingApp\Domain\Domain.csproj", "{666BB2F5-EA3A-41C5-A255-74CD91052968}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\messagingApp\Domain\Domain.csproj", "{666BB2F5-EA3A-41C5-A255-74CD91052968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\messagingApp\Application\Application.csproj", "{70A1ADCB-FB3E-4633-9B72-34B0E588CCD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\messagingApp\Application\Application.csproj", "{70A1ADCB-FB3E-4633-9B72-34B0E588CCD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "src\messagingApp\Persistence\Persistence.csproj", "{7CA8586A-B78C-41A9-981F-E8A1F1642EC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\messagingApp\Persistence\Persistence.csproj", "{7CA8586A-B78C-41A9-981F-E8A1F1642EC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\messagingApp\Infrastructure\Infrastructure.csproj", "{BCBCAE89-F5AE-4F08-8DA9-B6DD9B73B9F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\messagingApp\Infrastructure\Infrastructure.csproj", "{BCBCAE89-F5AE-4F08-8DA9-B6DD9B73B9F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "src\corePackages\Core.Application\Core.Application.csproj", "{01763C86-6EF2-4220-815A-69F867954929}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "src\corePackages\Core.Application\Core.Application.csproj", "{01763C86-6EF2-4220-815A-69F867954929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Persistence", "src\corePackages\Core.Persistence\Core.Persistence.csproj", "{085AE427-DF13-42B1-8CFA-7FD3527DFC3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Persistence", "src\corePackages\Core.Persistence\Core.Persistence.csproj", "{085AE427-DF13-42B1-8CFA-7FD3527DFC3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external_services", "external_services", "{33E4BB0F-D2D9-40CF-917D-FCB93549636C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileAPI", "external_services\FileAPI\FileAPI.csproj", "{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,10 @@ Global
 		{085AE427-DF13-42B1-8CFA-7FD3527DFC3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{085AE427-DF13-42B1-8CFA-7FD3527DFC3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{085AE427-DF13-42B1-8CFA-7FD3527DFC3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +88,7 @@ Global
 		{BCBCAE89-F5AE-4F08-8DA9-B6DD9B73B9F5} = {F4C4B2E1-9254-4B0C-9507-B6EE8C930DB5}
 		{01763C86-6EF2-4220-815A-69F867954929} = {CF9334CB-0F1E-474B-AE4A-17854C6A2539}
 		{085AE427-DF13-42B1-8CFA-7FD3527DFC3B} = {CF9334CB-0F1E-474B-AE4A-17854C6A2539}
+		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E} = {33E4BB0F-D2D9-40CF-917D-FCB93549636C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {047D640E-D60E-45CA-B4D2-B8AA7265D6F4}
