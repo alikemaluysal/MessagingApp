@@ -1,6 +1,7 @@
 using Persistence;
 using Application;
 using Infrastructure;
+using Core.Exception.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.ConfigureCustomExceptionMiddleware();
 
 if (app.Environment.IsDevelopment())
 {

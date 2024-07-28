@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Persistence", "src\cor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external_services", "external_services", "{33E4BB0F-D2D9-40CF-917D-FCB93549636C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileAPI", "external_services\FileAPI\FileAPI.csproj", "{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileAPI", "external_services\FileAPI\FileAPI.csproj", "{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Exception", "src\corePackages\Core.Exception\Core.Exception.csproj", "{3C7B395A-936F-41D4-B504-DD33A6348A8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C7B395A-936F-41D4-B504-DD33A6348A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C7B395A-936F-41D4-B504-DD33A6348A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C7B395A-936F-41D4-B504-DD33A6348A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C7B395A-936F-41D4-B504-DD33A6348A8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{01763C86-6EF2-4220-815A-69F867954929} = {CF9334CB-0F1E-474B-AE4A-17854C6A2539}
 		{085AE427-DF13-42B1-8CFA-7FD3527DFC3B} = {CF9334CB-0F1E-474B-AE4A-17854C6A2539}
 		{F3860E3C-0E9F-41B4-98C2-0DDE36B90A1E} = {33E4BB0F-D2D9-40CF-917D-FCB93549636C}
+		{3C7B395A-936F-41D4-B504-DD33A6348A8D} = {CF9334CB-0F1E-474B-AE4A-17854C6A2539}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {047D640E-D60E-45CA-B4D2-B8AA7265D6F4}
