@@ -12,13 +12,25 @@
     background-attachment: fixed;
     background-size: cover;
     overflow-y: auto;
-    height: calc(100vh - 140px); /* Adjust height to fit header and footer */
+    height: calc(100vh - 140px);
     background-color: rgb(252 249 239 / 80%);
 }
 
-    #pnlMessageHistory > .msg {
-        background-color: rgb(252 249 239 / 80%);
-    }
+
+#pnlMessageHistory > .msg {
+    background-color: rgb(252 249 239 / 80%);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-bottom: 50vh;
+    overflow-y: auto;
+}
+
+.chat-message:last-child .chat-message-box {
+    margin-bottom: 40vh;
+}
+
 
 #pnlChatInfo {
     background-color: rgb(249 235 189);
@@ -33,6 +45,6 @@ ul.contact-list li {
     cursor: pointer;
 }
 
-    ul.contact-list li:hover, ul.contact-list li.active {
-        background-color: rgb(250 159 54 / 20%);
-    }
+ul.contact-list li:hover, ul.contact-list li.active {
+    background-color: rgb(250 159 54 / 20%);
+}

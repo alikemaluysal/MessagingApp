@@ -4,14 +4,14 @@
 @foreach (var message in Model)
 {
     bool isToday = message.SentAt.Date == DateTime.Today;
-    string lastMessageDate = isToday ? message.SentAt.ToString("HH:mm") : message.SentAt.ToString("dd/MM/yyyy");
+    string dateOrTime = isToday ? message.SentAt.ToString("HH:mm") : message.SentAt.ToString("dd/MM/yyyy");
 
     if (message.IsCurrentUser)
     {
         <div class="d-flex justify-content-end chat-message msg-me">
             <div class="chat-message-box bg-light border border-warning pt-1 pb-3 px-2 rounded-3 text-dark">
                 <div class="py-1">@message.Content</div>
-                <sub class="d-block text-end text-muted">@message.SentAt</sub>
+                <sub class="d-block text-end text-muted">@dateOrTime</sub>
             </div>
         </div>
     }
@@ -22,7 +22,7 @@
             <div class="chat-message-box bg-light border border-warning py-3 px-2 rounded-3 text-dark">
                 <sup class="d-block text-muted">@message.SenderName</sup>
                 <div class="py-1">@message.Content</div>
-                <sub class="d-block text-end text-muted">@message.SentAt</sub>
+                <sub class="d-block text-end text-muted">@dateOrTime</sub>
             </div>
         </div>
     }

@@ -1,4 +1,5 @@
 using WebMVC;
+using WebMVC.Hubs;
 using WebMVC.Util.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,5 +26,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseNToastNotify();
+
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

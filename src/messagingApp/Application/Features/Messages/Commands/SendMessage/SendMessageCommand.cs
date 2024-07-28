@@ -8,14 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Messages.Commands.SendMessage;
 
-public class SendMessageCommand : IRequest<SentMessageResponse>, ISecuredRequest
+public class SendMessageCommand : IRequest<SentMessageResponse>
 {
     public Guid ChatId { get; set; }
     public Guid UserId { get; set; }
     public string? Content { get; set; }
     public string? FileIdentifier { get; set; }
 
-    public string[] Roles => [];
 
     class SendMessageCommandHandler(
         IUserRepository userRepository,

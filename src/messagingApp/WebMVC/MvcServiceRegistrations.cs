@@ -29,7 +29,7 @@ public static class MvcServiceRegistrations
         services.AddScoped<IChatService, HttpChatService>();
         services.AddScoped<IMessageService, HttpMessageService>();
         services.AddScoped<ITokenService, CookieTokenService>();
-
+        services.AddSignalR();
 
         return services;
     }

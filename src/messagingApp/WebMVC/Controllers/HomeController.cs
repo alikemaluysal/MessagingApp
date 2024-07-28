@@ -15,10 +15,13 @@ public class HomeController(
     IMessageService messageService
     ): Controller
 {
-    public async Task<IActionResult> IndexAsync()
+    public async Task<IActionResult> Index()
     {
         HomeViewModel model = new();
         model.UserChats = await chatService.GetUserChats(GetCurrentUserId());
+
+        model.UserId = GetCurrentUserId();
+        model.Nickname = GetCurrentUserNickname();
 
         return View(model);
     }
@@ -43,5 +46,10 @@ public class HomeController(
     private Guid GetCurrentUserId()
     {
         return Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+    }
+
+    private string GetCurrentUserNickname()
+    {
+        return User.FindFirst(ClaimTypes.Name).Value;
     }
 }

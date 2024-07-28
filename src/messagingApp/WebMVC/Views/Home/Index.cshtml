@@ -76,7 +76,18 @@
 
 
 @section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+
+
     <script>
+
+       function getActiveChatId(){
+            const activeChat = $('.contact-list li.active');
+            const chatId = activeChat.data('chat-id');
+           return chatId;
+        }
+
         function loadChatMessages(chatId, chatName) {
             $.get('/Home/GetChatMessages', { chatId: chatId }, (data) => {
                 $('#pnlMessageHistory .msg').html(data);
@@ -114,6 +125,7 @@
                 var chatName = $(this).data('chat-name');
                 console.log(chatName)
                 loadChatMessages(chatId, chatName);
+                loadUserChats();
             });
 
             $('#groupDetailModal').on('show.bs.modal', function (event) {
@@ -128,34 +140,73 @@
                 loadUserProfile(userId);
             });
 
+
+
+            var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+            connection.start().then(function () {
+                console.log("SignalR bağlantısı kuruldu")
+            }).catch(function (err) {
+                return console.error(err.toString());
+            });
+
+
+
+            connection.on("ReceiveMessage", function (messageJson) {
+                var message = JSON.parse(messageJson);
+                var activeChatId = getActiveChatId();
+
+                console.log("messaj geldi: " + messageJson);
+
+                if (getActiveChatId() === message.chatId) {
+                    appendMessageToChat(message);
+                }
+
+                loadUserChats();
+
+
+            });
+
+
+            $('#btnSendMessage').click(function () {
+                const messageContent = $('#messageInput').val();
+                const activeChat = $('.contact-list li.active');
+                const chatId = activeChat.data('chat-id');
+                const chatName = activeChat.data('chat-name');
+
+                if (chatId) {
+                    const message = {
+                        chatId: chatId,
+                        userId: "@Model.UserId",
+                        nickname: "@Model.Nickname",
+                        content: messageContent,
+                        sentAt: new Date().toISOString()
+                    };
+
+                    var messageJson = JSON.stringify(message);
+
+                    connection.invoke("SendMessage", messageJson);
+
+
+                    $('#messageInput').val('').focus();
+                } else {
+                    alert("Please select a chat.");
+                }
+            });
+
         });
 
 
-        $('#btnSendMessage').click(function () {
-            const messageContent = $('#messageInput').val();
-            const activeChat = $('.contact-list li.active');
-            const chatId = activeChat.data('chat-id');
-            const chatName = activeChat.data('chat-name');
 
-            if (chatId) {
-                const message = {
-                    chatId: chatId,
-                    userId: 1,
-                    nickname: "User",
-                    content: messageContent,
-                    sentAt: new Date().toISOString()
-                };
-
-                appendMessageToChat(message);
-                $('#messageInput').val('').focus();
-            } else {
-                alert("Please select a chat.");
-            }
-        });
+     
 
 
         function appendMessageToChat(message) {
-            var isCurrentUser = message.userId === 1;
+            var isCurrentUser = message.userId === "@Model.UserId";
+            
+            var date = new Date(message.sentAt);
+            var dateStr = date.getHours() + ":" + date.getMinutes();
+
             var messageHtml = isCurrentUser ? `
                                 <div class="d-flex justify-content-end chat-message msg-me">
                                     <div class="chat-message-box bg-light border border-warning pt-1 pb-3 px-2 rounded-3 text-dark">
@@ -173,6 +224,15 @@
                                 </div>`;
             $('#pnlMessageHistory .msg').append(messageHtml);
         }
+
+
+
+
+
+
+
+
+
 
     </script>
 }
