@@ -1,17 +1,17 @@
-﻿<li class="d-flex justify-content-between align-items-center p-2 active" data-chat-id="1" data-chat-name="Chat Name 1">
-    <div class="profile-image chat-sender-image-48px bg-warning text-dark">CN</div>
-    <div class="ms-2">
-        <div class="fw-bold">Chat Name 1</div>
-        <div class="text-muted small">Son mesaj</div>
-    </div>
-    <sub class="ms-auto text-muted mt-1">12:25</sub>
-</li>
+﻿@model List<UserChatViewModel>
 
-<li class="d-flex justify-content-between align-items-center p-2" data-chat-id="2" data-chat-name="Chat Name 2">
-    <div class="profile-image chat-sender-image-48px bg-warning text-dark">CN</div>
-    <div class="ms-2">
-        <div>Chat Name 2</div>
-        <div class="text-muted small">Son mesaj</div>
-    </div>
-    <sub class="ms-auto text-muted mt-1">12:25</sub>
-</li>
+@foreach (var chat in Model)
+{
+    bool isToday = chat.LastMessageDate?.Date == DateTime.Today;
+    string lastMessageDate = isToday ? chat.LastMessageDate?.ToString("HH:mm") : chat.LastMessageDate?.ToString("dd/MM/yyyy");
+
+    <li class="d-flex justify-content-between align-items-center p-2" data-chat-id="@chat.Id" data-chat-name="@chat.Name">
+        <div class="profile-image chat-sender-image-48px bg-warning text-dark">@chat.Name[..2].ToUpper()</div>
+        <div class="ms-2">
+            <div class="fw-bold">@chat.Name</div>
+            <div class="text-muted small">@chat.LastMessage</div>
+        </div>
+        <sub class="ms-auto text-muted mt-1">@lastMessageDate</sub>
+    </li>
+}
+

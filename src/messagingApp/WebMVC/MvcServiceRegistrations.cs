@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebMVC.Services.Auth;
+using WebMVC.Services.Chat;
+using WebMVC.Services.Message;
 using WebMVC.Services.Token;
 
 namespace WebMVC;
@@ -24,6 +26,8 @@ public static class MvcServiceRegistrations
         services.AddJwtAuthentication(configuration);
         services.AddHttpContextAccessor();
         services.AddScoped<IAuthService, HttpAuthService>();
+        services.AddScoped<IChatService, HttpChatService>();
+        services.AddScoped<IMessageService, HttpMessageService>();
         services.AddScoped<ITokenService, CookieTokenService>();
 
 

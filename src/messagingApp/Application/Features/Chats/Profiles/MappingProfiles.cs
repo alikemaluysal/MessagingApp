@@ -1,4 +1,5 @@
 ﻿using Application.Features.Chats.Commands.Create;
+using Application.Features.Chats.Commands.Join;
 using Application.Features.Chats.Queries.GetById;
 using Application.Features.Chats.Queries.GetByUserId;
 using Application.Features.Chats.Queries.GetList;
@@ -20,6 +21,7 @@ internal class MappingProfiles : Profile
 
         CreateMap<CreateChatCommand, Chat>();
         CreateMap<Chat, CreatedChatResponse>();
+        CreateMap<Chat, JoinedChatResponse>();
 
 
         CreateMap<Chat, GetByIdChatResponse>().ForMember(dest => dest.ChatUsers, opt => opt.MapFrom(src => src.ChatUsers.Select(cu => new ChatUserDto

@@ -1,7 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
+﻿@model HomeViewModel
 
 <div class="d-flex flex-column vh-100">
     <header class="w-100 top-bar shadow">
@@ -46,7 +43,7 @@
             <aside class="col-6 col-sm-4 col-lg-3 col-xl-2" style="z-index:10;">
                 <div id="ContactListContainer" class="d-flex flex-column justify-content-between h-100 border-end border-warning">
                     <ul class="contact-list bg-gradient-orange flex-grow-1 list-unstyled m-0 pt-2">
-                        <partial name="_UserChats" />
+                        <partial name="_UserChats" model="Model.UserChats" />
                     </ul>
                 </div>
             </aside>
@@ -54,7 +51,7 @@
                 <div class="d-flex flex-column justify-content-between h-100">
                     <div id="pnlMessageHistory" class="d-flex justify-content-between flex-grow-1">
                         <div class="msg p-3 w-100 pb-5">
-                            <partial name="_ChatMessages" />
+                            <partial name="_ChatMessages" model="Model.ChatMessages" />
                         </div>
                     </div>
                     <div id="pnlMessageSender" class="d-flex justify-content-between p-2 bg-orange border-top border-warning">
@@ -88,8 +85,8 @@
             })
         }
 
-        function loadUserChats(userId) {
-            $.get('/Home/GetUserChats', { userId: userId }, (data) => {
+        function loadUserChats() {
+            $.get('/Home/GetUserChats', {  }, (data) => {
                 $('#ContactListContainer .contact-list').html(data);
             })
         }

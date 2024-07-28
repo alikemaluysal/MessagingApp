@@ -20,7 +20,8 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
-app.ConfigureCustomExceptionMiddleware();
+//if(!app.Environment.IsDevelopment())
+    app.ConfigureCustomExceptionMiddleware();
 
 app.UseSwagger();
 app.UseSwaggerUI();
