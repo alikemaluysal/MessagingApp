@@ -1,0 +1,57 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Yeni Kayıt";
+}
+
+@section Styles {
+    <link href="~/css/auth-styles.css" rel="stylesheet" />
+}
+
+<div class="wrapper fadeInDown bg-orange">
+    <div id="formContent" class="bg-light">
+        <h2>Yeni Kayıt</h2>
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Error))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Error
+            </div>
+        }
+        <!-- Register Form -->
+        <form id="frmRegister" asp-action="Register" asp-controller="Auth" method="post">
+            <div class="form-group">
+                <input asp-for="Email" class="fadeIn second" placeholder="E-Posta">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Nickname" class="fadeIn second" placeholder="Ad">
+                <span asp-validation-for="Nickname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Password" class="fadeIn second" placeholder="Şifre">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="PasswordRepeat" class="fadeIn second" placeholder="Şifre Tekrar">
+                <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
+            </div>
+            <input type="submit" class="fadeIn fourth" value="Kayıt Ol">
+        </form>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a asp-controller="Auth" asp-action="Login" class="underlineHover me-5">Giriş</a>
+            <a asp-controller="Auth" asp-action="ForgotPassword" class="underlineHover">Şifremi Unuttum</a>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // document.getElementById("frmRegister").addEventListener("submit", function (e) {
+        //     e.preventDefault();
+        //     alert("Kullanıcı kaydı başarıyla oluşturuldu.");
+        // });
+    </script>
+}

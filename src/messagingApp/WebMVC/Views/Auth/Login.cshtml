@@ -1,0 +1,48 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="wrapper fadeInDown bg-orange">
+    <div id="formContent" class="bg-light">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="https://freesvg.org/img/abstract-user-flat-4.png" id="icon" alt="User Icon" />
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Error))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Error
+            </div>
+        }
+
+        <!-- Login Form -->
+        <form asp-controller="Auth" asp-action="Login" method="post" id="frmLogin">
+            <input asp-for="Email" class="fadeIn second" placeholder="e-posta">
+            <input asp-for="Password" class="fadeIn third" placeholder="şifre">
+            <input type="submit" class="fadeIn fourth" value="Giriş">
+        </form>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a asp-controller="Auth" asp-action="ForgotPassword" class="underlineHover me-5">Şifremi Unuttum</a>
+            <a asp-controller="Auth" asp-action="Register" class="underlineHover">Kayıt Ol</a>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @* <script>
+        document.getElementById("frmLogin").addEventListener("submit", function (e) {
+            e.preventDefault();
+            location.href = "/";
+        });
+    </script> *@
+}
+
+@section Styles {
+    <link href="~/css/auth-styles.css" rel="stylesheet" />
+}

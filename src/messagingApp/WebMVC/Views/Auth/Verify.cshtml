@@ -1,0 +1,65 @@
+﻿@model VerifyViewModel
+@{
+    ViewData["Title"] = "Kullanıcı Onayı";
+    string email = Model?.Email ?? ViewBag.Email ?? string.Empty;
+}
+
+<div class="wrapper fadeInDown bg-orange">
+    <div id="formContent" class="bg-light">
+        <h2>Kullanıcı Onayı</h2>
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="https://freesvg.org/img/abstract-user-flat-4.png" id="icon" alt="User Icon" />
+        </div>
+        <div class="p-4">
+            <div class="alert alert-info">
+                Lütfen e-posta adresinize gönderilen kodu aşağıya giriniz.
+            </div>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Error))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Error
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Success))
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewBag.Success
+            </div>
+        }
+
+        <!-- Verify Form -->
+        <form asp-controller="Auth" asp-action="Verify" method="post">
+            <input asp-for="Email" class="fadeIn second" placeholder="Email..." value="@email" />
+            <input asp-for="VerificationCode"
+                   class="fadeIn second" style="text-transform: uppercase; font-size:2em"
+                   placeholder="Onay Kodu..."
+                   minlength="6" maxlength="6" pattern="[a-z0-9]{6,6}" required autofocus>
+            <input type="submit" class="fadeIn fourth" value="Onayla">
+            <span asp-validation-for="VerificationCode" class="text-danger"></span>
+        </form>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a asp-controller="Auth" asp-action="Login" class="underlineHover">Giriş</a>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Success))
+    {
+        <script>
+            setTimeout(function () {
+                location.href = "@Url.Action("Login", "Auth")";
+            }, 5000);
+        </script>
+    }
+}
+@section Styles {
+    <link href="~/css/auth-styles.css" rel="stylesheet" />
+}
