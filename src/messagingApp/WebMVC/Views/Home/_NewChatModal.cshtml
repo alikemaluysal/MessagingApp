@@ -1,0 +1,45 @@
+﻿
+<div class="modal fade" id="newChatModal" tabindex="-1" aria-labelledby="newChatModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="newChatModalLabel">Yeni Sohbet</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Ekle</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Katıl</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <form id="FrmCreateGroup" asp-controller="Home" asp-action="CreateGroup" method="post" class="p-3">
+                            <div class="form-group mb-3">
+                                <label for="groupName">Grup Adı</label>
+                                <input type="text" name="groupName" id="groupName" class="form-control" required />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="email">Arkadaşının Email'i</label>
+                                <input type="email" name="email" id="email" class="form-control" required />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Oluştur</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <form id="FrmJoinGroup" asp-controller="Home" asp-action="JoinGroup" method="post" class="p-3">
+                            <div class="form-group mb-3">
+                                <label for="code">Katılım Kodu</label>
+                                <input type="text" name="code" id="code" class="form-control" required />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Katıl</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

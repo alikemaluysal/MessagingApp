@@ -2,6 +2,8 @@ using Persistence;
 using Application;
 using Infrastructure;
 using Core.Exception.Extensions;
+using Microsoft.OpenApi.Models;
+using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,21 +14,20 @@ builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
 
+builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
 app.ConfigureCustomExceptionMiddleware();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

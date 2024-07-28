@@ -1,22 +1,107 @@
-html {
-  font-size: 14px;
+﻿html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    min-width: 320px;
+}
+
+.no-resize {
+    resize: none;
+}
+
+.no-focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.chat-message {
+    margin-bottom: .5em;
+}
+
+.profile-image {
+    border-radius: 50%;
+    line-height: 2em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.chat-sender-image-1x {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.75em;
+}
+
+.chat-sender-image-2x {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1em;
+}
+
+.chat-sender-image-48px {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+}
+
+.chat-message .chat-message-box {
+    position: relative;
+    margin-right: 0.1em;
+    box-shadow: 2px 5px 8px 0px rgb(189 126 20 / 20%)
+}
+
+    .chat-message .chat-message-box::before {
+        content: "▲";
+        position: absolute;
+        top: 8px;
+        right: -0.9em;
+        color: rgb(255 162 0 / 50%);
+        line-height: 0em;
+        transform: rotateZ(90deg);
+    }
+
+.chat-message:not(.msg-me) {
+    margin-right: unset;
+}
+
+    .chat-message:not(.msg-me) .chat-message-box::before {
+        right: unset;
+        left: -0.9em;
+        transform: rotateZ(270deg);
+    }
+
+.border-orange {
+    border-color: rgb(255 162 0 / 50%) !important;
+}
+
+.bg-orange {
+    background-color: rgb(250 214 152 / 75%) !important
+}
+
+.bg-orange-light {
+    background-color: rgb(251 240 221) !important
+}
+
+.bg-gradient-orange {
+    background: linear-gradient(0deg, #ffdda9, #fff4e4);
+}
+
+.top-bar {
+    height: 3rem;
+    z-index: 20;
+}
+
+.resizable-x {
+    resize: horizontal;
+    overflow: auto;
+    min-width: 10vw;
+    max-width: 40vw;
 }

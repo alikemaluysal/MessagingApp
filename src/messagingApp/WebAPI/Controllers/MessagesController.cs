@@ -1,6 +1,7 @@
 ﻿using Application.Features.Messages.Commands.SendMessage;
 using Application.Features.Messages.Queries.GetListByChatId;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,4 +1,5 @@
 ﻿using Application.Services.Repositories;
+using Core.Application.Jwt;
 using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -8,24 +9,13 @@ using System.Text;
 
 namespace Application.Services.Auth;
 
-public class AuthService : IAuthService
+public class AuthService(IConfiguration configuration, IRefreshTokenRepository refreshTokenRepository) : IAuthService
 {
-    private readonly IConfiguration _configuration;
-    private readonly IRefreshTokenRepository _refreshTokenRepository;
-
-    public AuthService(IConfiguration configuration, IRefreshTokenRepository refreshTokenRepository)
-    {
-        _configuration = configuration;
-        _refreshTokenRepository = refreshTokenRepository;
-    }
-
     public string CreateAccessToken(User user)
     {
-        var audience = _configuration["TokenOptions:Audience"];
-        var issuer = _configuration["TokenOptions:Issuer"];
-        var accessTokenExpiration = DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["TokenOptions:AccessTokenExpiration"]));
-        var refreshTokenExpiration = DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["TokenOptions:RefreshTokenExpiration"]));
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenOptions:SecurityKey"]));
+            
+        TokenOptions tokenOptions = configuration.GetSection("TokenOptions").Get<TokenOptions>()
+            ?? throw new InvalidOperationException("TokenOptions cant found in configuration");
 
         var claims = new List<Claim>
         {
@@ -34,12 +24,14 @@ public class AuthService : IAuthService
             new Claim(ClaimTypes.Email, user.Email),
         };
 
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var expires = DateTime.UtcNow.AddMinutes(tokenOptions.AccessTokenExpiration);
 
         var jwt = new JwtSecurityToken(
-            issuer,
-            audience,
-            expires: accessTokenExpiration,
+            tokenOptions.Issuer,
+            tokenOptions.Audience,
+            expires: expires,
             notBefore: DateTime.UtcNow,
             claims: claims,
             signingCredentials: signingCredentials
@@ -57,11 +49,11 @@ public class AuthService : IAuthService
         {
             Token = refreshToken,
             UserId = user.Id,
-            ExpiresAt = DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["TokenOptions:RefreshTokenExpiration"])),
+            ExpiresAt = DateTime.Now.AddMinutes(Convert.ToDouble(configuration["TokenOptions:RefreshTokenExpiration"])),
             CreatedByIp = ipAddress
         };
 
-        await _refreshTokenRepository.AddAsync(newRefreshToken);
+        await refreshTokenRepository.AddAsync(newRefreshToken);
         return newRefreshToken;
     }
 
@@ -71,13 +63,13 @@ public class AuthService : IAuthService
         refreshToken.ReasonRevoked = "Replaced by new token";
         var newRefreshToken = await CreateRefreshTokenAsync(user, ipAddress);
         refreshToken.ReplacedByToken = newRefreshToken.Token;
-        await _refreshTokenRepository.UpdateAsync(refreshToken);
+        await refreshTokenRepository.UpdateAsync(refreshToken);
         return newRefreshToken;
     }
 
     public async Task DeleteOldRefreshTokens(Guid userId)
     {
-        var oldTokens = await _refreshTokenRepository.GetListAsync(t => t.UserId == userId && t.Revoked == null);
-        await _refreshTokenRepository.DeleteRangeAsync(oldTokens);
+        var oldTokens = await refreshTokenRepository.GetListAsync(t => t.UserId == userId && t.Revoked == null);
+        await refreshTokenRepository.DeleteRangeAsync(oldTokens);
     }
 }

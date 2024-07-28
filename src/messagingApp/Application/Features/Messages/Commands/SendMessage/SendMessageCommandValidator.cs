@@ -13,7 +13,19 @@ public class SendMessageCommandValidator : AbstractValidator<SendMessageCommand>
     {
         RuleFor(x => x.ChatId).NotEmpty();
         RuleFor(x => x.UserId).NotEmpty();
-        RuleFor(x => x.Content).NotEmpty().When(x => string.IsNullOrEmpty(x.FileIdentifier));
-        RuleFor(x => x.FileIdentifier).NotEmpty().When(x => string.IsNullOrEmpty(x.Content));
+        RuleFor(x => x).Must(HaveContentOrFileIdentifier)
+                       .WithMessage("Content ya da FileIdentifier alanlarından en az birisi dolu olmalıdır.");
+        RuleFor(x => x).Must(NotHaveBothContentAndFileIdentifier)
+                       .WithMessage("Content ve FileIdentifier alanları aynı anda dolu olamaz.");
+    }
+
+    private bool HaveContentOrFileIdentifier(SendMessageCommand command)
+    {
+        return !string.IsNullOrEmpty(command.Content) || !string.IsNullOrEmpty(command.FileIdentifier);
+    }
+
+    private bool NotHaveBothContentAndFileIdentifier(SendMessageCommand command)
+    {
+        return string.IsNullOrEmpty(command.Content) || string.IsNullOrEmpty(command.FileIdentifier);
     }
 }

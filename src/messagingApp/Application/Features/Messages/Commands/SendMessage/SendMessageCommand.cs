@@ -1,19 +1,21 @@
 ﻿using Application.Features.Messages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Messages.Commands.SendMessage;
 
-public class SendMessageCommand : IRequest<SentMessageResponse>
+public class SendMessageCommand : IRequest<SentMessageResponse>, ISecuredRequest
 {
     public Guid ChatId { get; set; }
     public Guid UserId { get; set; }
     public string? Content { get; set; }
     public string? FileIdentifier { get; set; }
 
+    public string[] Roles => [];
 
     class SendMessageCommandHandler(
         IUserRepository userRepository,
