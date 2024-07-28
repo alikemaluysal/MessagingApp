@@ -20,6 +20,8 @@ public class AuthController(
         tokenService.SetAccessToken(token.AccessToken);
         tokenService.SetRefreshToken(token.RefreshToken);
 
+        TempData["SuccessMessage"] = "Login successsfully.";
+
         return RedirectToAction("Index", "Home");
     }
 

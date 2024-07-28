@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 using System.Diagnostics;
 using WebMVC.Models;
 
 namespace WebMVC.Controllers;
 
 [Authorize]
-public class HomeController : Controller
+public class HomeController: Controller
 {
     public IActionResult Index()
     {
+
         return View();
     }
 

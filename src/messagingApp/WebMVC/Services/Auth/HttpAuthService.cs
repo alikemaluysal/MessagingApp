@@ -1,4 +1,6 @@
-﻿namespace WebMVC.Services.Auth;
+﻿using WebMVC.Util.ExceptionHandling;
+
+namespace WebMVC.Services.Auth;
 
 public class HttpAuthService(IHttpClientFactory httpClientFactory) : IAuthService
 {
@@ -7,7 +9,7 @@ public class HttpAuthService(IHttpClientFactory httpClientFactory) : IAuthServic
     public async Task<TokenResponse> LoginAsync(string email, string password)
     {
         var response = await _httpClient.PostAsJsonAsync("/api/Auth/Login", new { email, password });
-        response.EnsureSuccessStatusCode();
+        await response.EnsureSuccessStatusCodeWithApiError();
         var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
         return result;
 
@@ -16,7 +18,7 @@ public class HttpAuthService(IHttpClientFactory httpClientFactory) : IAuthServic
     public async Task<TokenResponse> Register(string email, string password, string nickname)
     {
         var response = await _httpClient.PostAsJsonAsync("/api/Auth/Register", new { email, password, nickname });
-        response.EnsureSuccessStatusCode();
+        await response.EnsureSuccessStatusCodeWithApiError();
         var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
         return result;
     }
@@ -24,7 +26,7 @@ public class HttpAuthService(IHttpClientFactory httpClientFactory) : IAuthServic
     public async Task<TokenResponse> RefreshToken(string refreshToken)
     {
         var response = await _httpClient.GetAsync($"/api/Auth/RefreshToken?refreshToken={refreshToken}");
-        response.EnsureSuccessStatusCode();
+        await response.EnsureSuccessStatusCodeWithApiError();
         var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
         return result;
     }
