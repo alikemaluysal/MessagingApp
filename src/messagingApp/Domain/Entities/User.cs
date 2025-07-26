@@ -12,4 +12,10 @@ public class User : Entity<Guid>
     public byte[] PasswordSalt { get; set; } = default!;
     public bool IsVerified { get; set; }
     public string? ProfileImageUrl { get; set; }
+
+    public virtual List<ChatParticipant> Participants { get; set; } = new();
+    public virtual List<Chat> CreatedChats { get; set; } = new();
+    public virtual List<Message> SentMessages { get; set; } = new();
+
+
 }
