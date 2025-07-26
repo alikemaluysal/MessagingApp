@@ -23,7 +23,7 @@ public class RegisterCommand : IRequest<RegisterCommandResponse>
         public async Task<RegisterCommandResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             await rules.CheckIfUserEmailUnique(request.Email);
-            await rules.CheckIfUserNameUnique(request.Email);
+            await rules.CheckIfUserNameUnique(request.UserName);
 
 
             var (hash, salt) = HashingHelper.CreatePasswordHash(request.Password);

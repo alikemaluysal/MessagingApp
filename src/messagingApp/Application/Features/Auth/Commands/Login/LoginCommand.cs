@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Application.Features.Auth.Rules;
+using Application.Repositories;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +16,27 @@ public class LoginCommand : IRequest<LoggedInCommandResponse>
     public string Password { get; set; }
 
 
-    public class LoginCommandHandler : IRequestHandler<LoginCommand, LoggedInCommandResponse>
+    public class LoginCommandHandler(IUserRepository userRepository, AuthBusinessRules rules) : IRequestHandler<LoginCommand, LoggedInCommandResponse>
     {
-        public Task<LoggedInCommandResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<LoggedInCommandResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var user = await userRepository.GetAsync(u => u.UserName == request.UserName);
+            rules.CheckIfUserExists(user);
+            rules.CheckIfUserPasswordValid(request.Password, user.PasswordHash, user.PasswordSalt);
+
+
+            //TODO: automapper
+            var response = new LoggedInCommandResponse
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                DisplayName = user.DisplayName,
+                Email = user.Email,
+                IsVerified = user.IsVerified
+            };
+
+            return response;
         }
     }
-
-
 }
 

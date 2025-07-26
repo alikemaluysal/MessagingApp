@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using Messaging.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Messaging.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     public IActionResult Index()

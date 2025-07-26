@@ -8,6 +8,8 @@ namespace Application.Features.Auth.Constants;
 
 public static class AuthMessages
 {
-    public const string EmailAlreadyExists = "Email already exists.";
-    public const string UserNameAlreadyExists = "UserName already exists.";
+    public const string UserNotFound = "Kullanıcı adı veya şifre hatalı.";
+    public const string InvalidPassword = "Kullanıcı adı veya şifre hatalı.";
+    public const string EmailAlreadyExists = "Bu email adresiyle kayıtlı bir kullanıcı mevcut.";
+    public const string UserNameAlreadyExists = "Bu kullanıcı adıyla kayıtlı bir kullanıcı mevcut.";
 }
