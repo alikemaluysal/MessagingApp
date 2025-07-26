@@ -17,8 +17,11 @@ public class AuthController(IMediator mediator) : Controller
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromForm]LoginCommand command, bool rememberMe)
     {
+        if (!ModelState.IsValid)
+            return View(command);
         try
         {
+
             var response = await mediator.Send(command);
 
             var claims = new List<Claim>
@@ -64,6 +67,10 @@ public class AuthController(IMediator mediator) : Controller
     [HttpPost("Register")]
     public async Task<IActionResult> Register(RegisterCommand command)
     {
+        if (!ModelState.IsValid)
+            return View(command);
+
+
         try
         {
             var response = await mediator.Send(command);

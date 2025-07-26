@@ -85,6 +85,7 @@
                                         <div class="mb-3">
                                             <label asp-for="UserName" class="form-label">Username</label>
                                             <input asp-for="UserName" type="text" class="form-control" id="username" placeholder="Enter username">
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
 
                                         <div class="mb-3">
@@ -96,6 +97,8 @@
                                                 <input asp-for="Password" type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input">
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted shadow-none password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                             </div>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+
                                         </div>
 
                                         <div class="form-check">

@@ -85,16 +85,22 @@
                                         <div class="mb-3">
                                             <label asp-for="Email" class="form-label">Email <span class="text-danger">*</span></label>
                                             <input asp-for="Email" class="form-control" placeholder="Enter email address" required>
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+
                                         </div>
                                         <div class="mb-3">
                                             <label asp-for="UserName" class="form-label">Username <span class="text-danger">*</span></label>
                                             <input asp-for="UserName" type="text" class="form-control" placeholder="Enter username" required>
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+
                                         </div>
 
 
                                         <div class="mb-3">
                                             <label asp-for="DisplayName" class="form-label">Display Name <span class="text-danger">*</span></label>
                                             <input asp-for="DisplayName" type="text" class="form-control" placeholder="Enter username" required>
+                                            <span asp-validation-for="DisplayName" class="text-danger"></span>
+
                                         </div>
 
                                         <div class="mb-3">
@@ -105,6 +111,8 @@
                                                 <div class="invalid-feedback">
                                                     Please enter password
                                                 </div>
+                                                <span asp-validation-for="Password" class="text-danger"></span>
+
                                             </div>
                                         </div>
 
