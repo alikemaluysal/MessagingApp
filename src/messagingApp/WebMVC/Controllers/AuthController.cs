@@ -13,9 +13,8 @@ public class AuthController(IMediator mediator) : Controller
     [HttpGet("Login")]
     public IActionResult Login() => View();
 
-    //TODO: fix rememberMe
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromForm]LoginCommand command, bool rememberMe)
+    public async Task<IActionResult> Login([FromForm]LoginCommand command, [FromForm]bool rememberMe)
     {
         if (!ModelState.IsValid)
             return View(command);
