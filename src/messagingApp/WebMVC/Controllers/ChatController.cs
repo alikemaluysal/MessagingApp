@@ -1,4 +1,5 @@
 ﻿using Application.Features.Chats.Queries.GetUserChats;
+using Application.Features.Messages.Commands.SendMessage;
 using Application.Features.Messages.Queries.GetChatMessages;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -34,10 +35,28 @@ public class ChatController(IMediator mediator) : Controller
         var viewModel = new UserChatsViewModel
         {
             GetUserChatsResponse = userChatsResponse,
-            GetChatMessagesResponse = messagesResponse 
+            GetChatMessagesResponse = messagesResponse
         };
 
         return View(viewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SendMessage([FromForm] SendMessageCommand command)
+    {
+        if (!ModelState.IsValid)
+            RedirectToAction(nameof(Index), new { selectedChatId = command.ChatId });
+
+        try
+        {
+            var response = await mediator.Send(command);
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = e.Message;
+        }
+        return RedirectToAction(nameof(Index), new { selectedChatId = command.ChatId });
+
     }
 
 

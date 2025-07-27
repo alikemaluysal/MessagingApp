@@ -16,7 +16,7 @@ public class AuthBusinessRules(IUserRepository userRepository)
     public void CheckIfUserExists(User? user)
     {
         if (user is null)
-            throw new Exception("Kullanıcı bulunamadı.");
+            throw new Exception(AuthMessages.UserNotFound);
     }
     public async Task CheckIfUserEmailUnique(string email)
     {

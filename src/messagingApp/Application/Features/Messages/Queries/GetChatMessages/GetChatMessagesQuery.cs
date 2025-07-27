@@ -40,6 +40,8 @@ public class GetChatMessagesQuery : IRequest<GetChatMessagesResponse>
                                 .Where(c => c.Id == request.ChatId)
                                 .Select(c => new ChatInfoDto
                                 {
+                                    UserId = request.UserId,
+                                    ChatId = c.Id,
                                     Name = c.IsGroup ? c.Name :
                                     c.Participants.FirstOrDefault(c => c.UserId != request.UserId).User.DisplayName,
                                     ImageUrl = c.IsGroup ? c.GroupImageUrl :

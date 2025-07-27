@@ -1,4 +1,5 @@
 ﻿using Application.Features.Auth.Rules;
+using Application.Features.Messages.Rules;
 using Application.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -19,6 +20,7 @@ public static class ApplicationServiceRegistrations
         services.AddFluentValidationAutoValidation();
 
         services.AddScoped<AuthBusinessRules>();
+        services.AddScoped<MessagesBusinessRules>();
 
         return services;
     }
