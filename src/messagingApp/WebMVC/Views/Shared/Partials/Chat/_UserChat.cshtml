@@ -5,7 +5,7 @@
 <div class="user-chat w-100 overflow-hidden">
     <div class="chat-content d-lg-flex">
         <!-- start chat conversation section -->
-        <div class="w-100 overflow-hidden position-relative">
+        <div class="w-100 overflow-hidden position-relative @(Model.Messages.Count == 0 ? "d-none" : "")">
             <div class="position-relative">
                 <div class="position-relative" id="users-chat" style="display: block;">
                     <div class="p-3 user-chat-topbar">
