@@ -1,0 +1,20 @@
+﻿@using Application.Features.Chats.Queries.GetUserChats
+@model GetUserChatsResponse
+
+
+<div class="container-fluid">
+    <div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
+        <div class="chat-leftsidebar">
+            <partial name="Partials/Chat/_Search" />
+            <partial name="Partials/Chat/_Tabs" />
+            <div class="tab-content text-muted">
+                <partial name="Partials/Chat/_ChatsTab" model="@Model" />
+                <partial name="Partials/Chat/_ContactsTab" />
+            </div>
+            <!-- end tab contact -->
+        </div>
+        <!-- end chat leftsidebar -->
+        <partial name="Partials/Chat/_UserChat" />
+
+    </div>
+</div>

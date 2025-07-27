@@ -1,0 +1,106 @@
+﻿@using Application.Features.Chats.Queries.GetUserChats
+@model GetUserChatsResponse
+
+
+<div class="tab-pane active" id="chats" role="tabpanel">
+    <div class="chat-room-list pt-3 simplebar-scrollable-y" data-simplebar="init">
+        <div class="simplebar-wrapper" style="margin: -16px 0px 0px;">
+            <div class="simplebar-height-auto-observer-wrapper">
+                <div class="simplebar-height-auto-observer"></div>
+            </div>
+            <div class="simplebar-mask">
+                <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                    <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
+                        <div class="simplebar-content" style="padding: 16px 0px 0px;">
+                            <div class="d-flex align-items-center px-4 mb-2">
+                                <div class="flex-grow-1">
+                                    <h4 class="mb-0 fs-11 text-muted text-uppercase">Direct Messages</h4>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" aria-label="New Message" data-bs-original-title="New Message">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-soft-success btn-sm">
+                                            <i class="ri-add-line align-bottom"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-message-list">
+                                <ul class="list-unstyled chat-list chat-user-list" id="userList">
+
+                                    @foreach (var dm in Model.DirectMessages)
+                                    {
+                                        <li id="contact-id-1" data-name="direct-message" class="">
+                                            <a href="javascript: void(0);">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0 chat-user-img online align-self-center me-2 ms-0">
+                                                        <div class="avatar-xxs">                        <img src="@dm.ImageUrl" class="rounded-circle img-fluid userprofile" alt=""><span class="user-status"></span>                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-truncate mb-0">@dm.Name</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+
+
+
+                                </ul>
+                            </div>
+                            <div class="d-flex align-items-center px-4 mt-4 pt-2 mb-2">
+                                <div class="flex-grow-1">
+                                    <h4 class="mb-0 fs-11 text-muted text-uppercase">Channels</h4>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" aria-label="Create group" data-bs-original-title="Create group">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-soft-success btn-sm">
+                                            <i class="ri-add-line align-bottom"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-message-list">
+                                <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
+
+
+                                    @foreach (var channel in Model.Channels)
+                                    {
+                                        <li id="contact-id-10" data-name="channel">
+                                            <a href="javascript: void(0);" class="unread-msg-user">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0 chat-user-img align-self-center me-2 ms-0">
+                                                        <div class="avatar-xxs">
+                                                            <img src="@channel.ImageUrl" class="rounded-circle img-fluid userprofile" alt="">
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-truncate mb-0">@channel.Name</p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="flex-shrink-0 ms-2"><span class="badge bg-dark-subtle text-body rounded p-1">7</span></div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                            <!-- End chat-message-list -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="simplebar-placeholder" style="width: 300px; height: 651px;"></div>
+        </div>
+        <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+            <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+        </div>
+        <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+            <div class="simplebar-scrollbar" style="height: 250px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+        </div>
+    </div>
+</div>
