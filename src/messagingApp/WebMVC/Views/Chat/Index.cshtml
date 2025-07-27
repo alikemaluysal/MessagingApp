@@ -1,5 +1,5 @@
-﻿@using Application.Features.Chats.Queries.GetUserChats
-@model GetUserChatsResponse
+﻿@using WebMVC.Models
+@model UserChatsViewModel
 
 
 <div class="container-fluid">
@@ -8,13 +8,13 @@
             <partial name="Partials/Chat/_Search" />
             <partial name="Partials/Chat/_Tabs" />
             <div class="tab-content text-muted">
-                <partial name="Partials/Chat/_ChatsTab" model="@Model" />
+                <partial name="Partials/Chat/_ChatsTab" model="@Model.GetUserChatsResponse" />
                 <partial name="Partials/Chat/_ContactsTab" />
             </div>
             <!-- end tab contact -->
         </div>
         <!-- end chat leftsidebar -->
-        <partial name="Partials/Chat/_UserChat" />
+        <partial name="Partials/Chat/_UserChat" model="@Model.GetChatMessagesResponse" />
 
     </div>
 </div>

@@ -31,7 +31,7 @@
                                     @foreach (var dm in Model.DirectMessages)
                                     {
                                         <li id="contact-id-1" data-name="direct-message" class="">
-                                            <a href="javascript: void(0);">
+                                            <a asp-action="Index" asp-route-selectedChatId="@dm.ChatId">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 chat-user-img online align-self-center me-2 ms-0">
                                                         <div class="avatar-xxs">                        <img src="@dm.ImageUrl" class="rounded-circle img-fluid userprofile" alt=""><span class="user-status"></span>                        </div>
@@ -68,7 +68,7 @@
                                     @foreach (var channel in Model.Channels)
                                     {
                                         <li id="contact-id-10" data-name="channel">
-                                            <a href="javascript: void(0);" class="unread-msg-user">
+                                            <a asp-route-selectedChatId="@channel.ChatId" class="unread-msg-user">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 chat-user-img align-self-center me-2 ms-0">
                                                         <div class="avatar-xxs">

@@ -1,33 +1,43 @@
 ﻿using Application.Features.Chats.Queries.GetUserChats;
+using Application.Features.Messages.Queries.GetChatMessages;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using WebMVC.Models;
 
 namespace WebMVC.Controllers;
 
 [Authorize]
 public class ChatController(IMediator mediator) : Controller
 {
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromQuery] Guid selectedChatId)
     {
-        try
+
+        var userId = getUserId();
+        var getUserChatsQuery = new GetUserChatsQuery { UserId = userId };
+        GetUserChatsResponse userChatsResponse = await mediator.Send(getUserChatsQuery);
+        GetChatMessagesResponse messagesResponse = new();
+
+        if (selectedChatId != Guid.Empty)
         {
-            var query = new GetUserChatsQuery
+            var getMessagesQuery = new GetChatMessagesQuery
             {
-                UserId = getUserId()
+                UserId = userId,
+                ChatId = selectedChatId
             };
 
-
-            GetUserChatsResponse response = await mediator.Send(query);
-            return View(response);
+            messagesResponse = await mediator.Send(getMessagesQuery);
         }
-        catch (Exception)
+
+
+        var viewModel = new UserChatsViewModel
         {
+            GetUserChatsResponse = userChatsResponse,
+            GetChatMessagesResponse = messagesResponse 
+        };
 
-            throw;
-        }
-
+        return View(viewModel);
     }
 
 

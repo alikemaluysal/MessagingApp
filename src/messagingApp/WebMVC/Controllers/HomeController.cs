@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Security.Claims;
 using Application.Features.Chats.Queries.GetUserChats;
 using MediatR;
-using Messaging.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
