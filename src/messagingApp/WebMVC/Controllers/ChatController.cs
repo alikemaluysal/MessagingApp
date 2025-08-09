@@ -1,6 +1,8 @@
-﻿using Application.Features.Chats.Queries.GetUserChats;
+﻿using Application.Features.Chats.Commands.CreateChat;
+using Application.Features.Chats.Queries.GetUserChats;
 using Application.Features.Messages.Commands.SendMessage;
 using Application.Features.Messages.Queries.GetChatMessages;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,31 +18,39 @@ public class ChatController(IMediator mediator, IHubContext<ChatHub> hub) : Cont
 {
     public async Task<IActionResult> Index([FromQuery] Guid selectedChatId)
     {
-
-        var userId = getUserId();
-        var getUserChatsQuery = new GetUserChatsQuery { UserId = userId };
-        GetUserChatsResponse userChatsResponse = await mediator.Send(getUserChatsQuery);
-        GetChatMessagesResponse messagesResponse = new();
-
-        if (selectedChatId != Guid.Empty)
+        try
         {
-            var getMessagesQuery = new GetChatMessagesQuery
+            var userId = getUserId();
+            var getUserChatsQuery = new GetUserChatsQuery { UserId = userId };
+            GetUserChatsResponse userChatsResponse = await mediator.Send(getUserChatsQuery);
+            GetChatMessagesResponse messagesResponse = new();
+
+            if (selectedChatId != Guid.Empty)
             {
-                UserId = userId,
-                ChatId = selectedChatId
+                var getMessagesQuery = new GetChatMessagesQuery
+                {
+                    UserId = userId,
+                    ChatId = selectedChatId
+                };
+
+                messagesResponse = await mediator.Send(getMessagesQuery);
+            }
+
+
+            var viewModel = new UserChatsViewModel
+            {
+                GetUserChatsResponse = userChatsResponse,
+                GetChatMessagesResponse = messagesResponse
             };
 
-            messagesResponse = await mediator.Send(getMessagesQuery);
+            return View(viewModel);
+        }
+        catch (Exception e)
+        {
+
+            return View();
         }
 
-
-        var viewModel = new UserChatsViewModel
-        {
-            GetUserChatsResponse = userChatsResponse,
-            GetChatMessagesResponse = messagesResponse
-        };
-
-        return View(viewModel);
     }
 
     [HttpPost]
@@ -52,13 +62,13 @@ public class ChatController(IMediator mediator, IHubContext<ChatHub> hub) : Cont
 
         try
         {
-            var response = await mediator.Send(command);
+            var message = await mediator.Send(command);
 
             //TODO: application tarafına taşı
             await hub.Clients.Group(chatId.ToString())
-                .SendAsync("ReceiveMessage", response);
+                .SendAsync("ReceiveMessage", message);
 
-            return Ok(response);
+            return Ok(message);
 
         }
         catch (Exception e)
@@ -68,6 +78,27 @@ public class ChatController(IMediator mediator, IHubContext<ChatHub> hub) : Cont
 
     }
 
+    [HttpGet]
+    public async Task<IActionResult> DirectMessage([FromQuery] string userName)
+    {
+        try
+        {
+            var command = new GetOrCreateDirectMessageChatCommand
+            {
+                FirstParticipantId = getUserId(),
+                SecondParticipantName = userName
+            };
+
+            var chatId = await mediator.Send(command);
+
+
+            return RedirectToAction(nameof(Index), new { selectedChatId = chatId });
+        }
+        catch (Exception e)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+    }
 
     private Guid getUserId()
     {

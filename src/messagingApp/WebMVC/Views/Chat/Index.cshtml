@@ -13,7 +13,7 @@
 <div class="container-fluid">
     <div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
         <div class="chat-leftsidebar">
-            <partial name="Partials/_ChatSidebar" model="Model?.GetUserChatsResponse"/>
+            <partial name="Partials/_ChatSidebar" model="Model?.GetUserChatsResponse" />
         </div>
 
         <div class="user-chat w-100 overflow-hidden">
@@ -24,19 +24,18 @@
                         {
                             <partial name="Partials/_ChatTopbar" model="chatInfo" />
 
-                            <div 
-                                class="chat-conversation p-3 p-lg-4" 
-                                id="users-chat-conversation" 
-                                data-simplebar
-                                data-selected-chat-id="@selectedChatId"
-                                data-current-user-id="@ViewBag.CurrentUserId"
-                                data-is-group="@ViewBag.IsGroup">
+                            <div class="chat-conversation p-3 p-lg-4"
+                                 id="users-chat-conversation"
+                                 data-simplebar
+                                 data-selected-chat-id="@selectedChatId"
+                                 data-current-user-id="@ViewBag.CurrentUserId"
+                                 data-is-group="@ViewBag.IsGroup">
                                 <partial name="Partials/_ChatConversationList"
-                                         model="Model?.GetChatMessagesResponse?.Messages?? new List<Application.Features.Messages.Queries.GetChatMessages.MessageDto>()" />
-                        </div>
+                                         model="Model?.GetChatMessagesResponse?.Messages ?? new List<Application.Features.Messages.Queries.GetChatMessages.MessageDto>()" />
+                            </div>
 
                             <partial name="Partials/_ChatInput" model="chatInfo" />
-                                                }
+                        }
                         else
                         {
                             <div class="p-5 text-center text-muted">Bir sohbet seçin.</div>
@@ -48,6 +47,7 @@
     </div>
 </div>
 
+<partial name="Partials/_CreateDirectMessage" model="chatInfo" />
 
 
 @section Scripts {
