@@ -1,10 +1,10 @@
 ﻿function buildMessageHtml(msg, currentUserId, isGroup) {
-    const isMine =  msg.SenderId === currentUserId;
+    const isMine =  msg.senderId === currentUserId;
     const content = msg.content;
-    const createdAt = msg.CreatedAt;
+    const createdAt = msg.createdAt;
     const time = formatTime(createdAt);
-    const senderName = msg.SenderName ;
-    const avatar = msg.SenderImageUrl;
+    const senderName = msg.senderName ;
+    const avatar = msg.senderImageUrl;
 
     console.log(time);
 
@@ -29,6 +29,9 @@
 
 
 function appendMessage(msg, currentUserId, isGroup) {
+
+    console.log(msg);
+
     var ul = document.getElementById("users-conversation");
     if (!ul) return;
 

@@ -42,20 +42,21 @@ public class ChatController(IMediator mediator) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SendMessage([FromForm] SendMessageCommand command)
+    public async Task<IActionResult> SendMessage([FromBody] SendMessageCommand command)
     {
-        if (!ModelState.IsValid)
-            RedirectToAction(nameof(Index), new { selectedChatId = command.ChatId });
+
+        command.SenderId = getUserId();
 
         try
         {
             var response = await mediator.Send(command);
+            return Ok(response);
+
         }
         catch (Exception e)
         {
-            TempData["ErrorMessage"] = e.Message;
+            return BadRequest(e.Message);
         }
-        return RedirectToAction(nameof(Index), new { selectedChatId = command.ChatId });
 
     }
 

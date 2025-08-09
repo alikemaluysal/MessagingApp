@@ -1,7 +1,8 @@
-﻿@model Application.Features.Messages.Queries.GetChatMessages.ChatInfoDto
+﻿@using System.Security.Claims
+@model Application.Features.Messages.Queries.GetChatMessages.ChatInfoDto
 
 <div class="chat-input-section p-3 p-lg-4">
-    <form id="chatinput-form" method="post" asp-controller="Chat" asp-action="SendMessage">
+    <form id="chatinput-form">
         <input type="hidden" name="SenderId" value="@Model.UserId" />
         <input type="hidden" name="ChatId" value="@Model.ChatId" />
         <div class="row g-0 align-items-center">
@@ -46,3 +47,49 @@
         </div>
     </div>
 </div>
+
+
+@{
+    var currentUserId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+    var isGroup = (bool)ViewBag.IsGroup;
+}
+
+
+<script>
+    var form = document.getElementById('chatinput-form');
+
+    var chatId = @Html.Raw(Json.Serialize(Model.ChatId));
+    var currentUserId = @Html.Raw(Json.Serialize(currentUserId));
+    var isGroup = @Html.Raw(Json.Serialize(isGroup));
+
+
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var content = document.getElementById('chat-input').value.trim();
+
+       var data = {
+            chatId: chatId,
+            content: content
+        }
+
+
+        console.log(data);
+
+        let res = await fetch('/Chat/SendMessage', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {"Content-Type": 'application/json'}
+        })
+
+        var message = await res.json();
+        console.log(message)
+
+
+        appendMessage(message, currentUserId, isGroup);
+        document.getElementById('chat-input').value = '';
+
+    });
+
+
+</script>

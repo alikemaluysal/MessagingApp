@@ -1,10 +1,13 @@
-﻿@model WebMVC.Models.UserChatsViewModel
+﻿@using System.Security.Claims
+@model WebMVC.Models.UserChatsViewModel
 @{
     ViewData["Title"] = "Chat";
     var hasSelectedChat = Model?.GetChatMessagesResponse?.ChatInfo?.ChatId != Guid.Empty;
     var chatInfo = Model?.GetChatMessagesResponse?.ChatInfo;
     var selectedChatId = Model?.GetChatMessagesResponse?.ChatInfo?.ChatId ?? Guid.Empty;
     ViewBag.SelectedChatId = selectedChatId;
+    ViewBag.CurrentUserId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+    ViewBag.IsGroup = Model?.GetChatMessagesResponse?.ChatInfo.IsGroup ?? false;
 }
 
 <div class="container-fluid">
