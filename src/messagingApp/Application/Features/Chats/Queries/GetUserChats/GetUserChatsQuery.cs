@@ -8,54 +8,52 @@ public class GetUserChatsQuery : IRequest<GetUserChatsResponse>
 {
     public Guid UserId { get; set; }
 
-    public class GetUserChatsQueryHandler(IChatRepository chatRepository) : IRequestHandler<GetUserChatsQuery, GetUserChatsResponse>
+    public class GetUserChatsQueryHandler(IChatRepository chatRepository)
+        : IRequestHandler<GetUserChatsQuery, GetUserChatsResponse>
     {
         public async Task<GetUserChatsResponse> Handle(GetUserChatsQuery request, CancellationToken cancellationToken)
         {
             var userId = request.UserId;
 
-            //TODO: improve query
-            var userChats = await chatRepository.Query()
-                            .Where(c => c.Participants.Any(p => p.UserId == userId))
-                            .Select(c => new
-                            {
-                                c.Id,
-                                c.IsGroup,
-                                Name = c.IsGroup ? c.Name :
-                                    c.Participants.FirstOrDefault(c => c.UserId != userId).User.DisplayName,
-                                ImageUrl = c.IsGroup ? c.GroupImageUrl :
-                                     c.Participants.FirstOrDefault(c => c.UserId != userId).User.ProfileImageUrl,
-                                LastMessageTime = c.Messages.OrderByDescending(m => m.CreatedAt).FirstOrDefault().CreatedAt
-                            }).OrderByDescending(c => c.LastMessageTime).AsNoTracking().ToListAsync();
-
-
-            var directMessages = userChats.Where(c => !c.IsGroup)
+            var items = await chatRepository.Query()
+                .AsNoTracking()
+                .Where(c => c.Participants.Any(p => p.UserId == userId))
                 .Select(c => new ChatSummaryDto
                 {
                     ChatId = c.Id,
-                    Name = c.Name,
-                    ImageUrl = c.ImageUrl,
                     IsGroup = c.IsGroup,
-                    LastMessageTime = c.LastMessageTime
-                }).ToList();
 
-            var channels = userChats.Where(c => c.IsGroup)
-                    .Select(c => new ChatSummaryDto
-                    {
-                        ChatId = c.Id,
-                        Name = c.Name,
-                        ImageUrl = c.ImageUrl,
-                        IsGroup = c.IsGroup,
-                        LastMessageTime = c.LastMessageTime
-                    }).ToList();
+                    Name = c.IsGroup
+                        ? (c.Name ?? "İsimsiz Grup")
+                        : (
+                            c.Participants
+                                .Where(p => p.UserId != userId)
+                                .Select(p => p.User.DisplayName)
+                                .FirstOrDefault()
+                            ?? "Bilinmeyen Kullanıcı"
+                          ),
+
+                    ImageUrl = c.IsGroup
+                        ? c.GroupImageUrl
+                        : c.Participants
+                            .Where(p => p.UserId != userId)
+                            .Select(p => p.User.ProfileImageUrl)
+                            .FirstOrDefault(),
+
+                    LastMessageTime = c.Messages
+                        .OrderByDescending(m => m.CreatedAt)
+                        .Select(m => (DateTime?)m.CreatedAt)
+                        .FirstOrDefault()
+                })
+                .OrderByDescending(x => x.LastMessageTime.HasValue)
+                .ThenByDescending(x => x.LastMessageTime)
+                .ToListAsync(cancellationToken);
 
             return new GetUserChatsResponse
             {
-               DirectMessages = directMessages,
-                Channels = channels
+                DirectMessages = items.Where(x => !x.IsGroup).ToList(),
+                Channels = items.Where(x => x.IsGroup).ToList()
             };
-
         }
     }
-
 }
