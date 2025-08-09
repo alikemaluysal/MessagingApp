@@ -1,0 +1,60 @@
+﻿@model List<Application.Features.Messages.Queries.GetChatMessages.MessageDto>
+
+<ul class="list-unstyled chat-conversation-list" id="users-conversation">
+    @foreach (var m in (Model ?? new()))
+    {
+        var side = m.IsSender ? "right" : "left";
+        <li class="chat-list @side" id="msg-@m.Id">
+            <div class="conversation-list">
+                @if (!m.IsSender)
+                {
+                    <div class="chat-avatar">
+                        <img src="@(!string.IsNullOrWhiteSpace(m.SenderImageUrl) ? m.SenderImageUrl : Url.Content("~/assets/images/users/user-dummy-img.jpg"))" alt="">
+                    </div>
+                }
+                <div class="user-chat-content">
+                    <div class="ctext-wrap">
+                        <div class="ctext-wrap-content">
+                            <p class="mb-0 ctext-content">@m.Content</p>
+                        </div>
+
+                        <div class="dropdown align-self-start message-box-drop">
+                            <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ri-more-2-fill"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item reply-message" href="#"><i class="ri-reply-line me-2 text-muted align-bottom"></i>Reply</a>
+                                <a class="dropdown-item copy-message" href="#"><i class="ri-file-copy-line me-2 text-muted align-bottom"></i>Copy</a>
+                                <a class="dropdown-item delete-item" href="#"><i class="ri-delete-bin-5-line me-2 text-muted align-bottom"></i>Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conversation-name">
+                        <span class="d-none name">@m.SenderName</span>
+                        <small class="text-muted time">@m.CreatedAt.ToString("HH:mm")</small>
+                        <span class="text-success check-message-icon"><i class="bx bx-check-double"></i></span>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+<div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show" id="copyClipBoard" role="alert" style="display:none">
+    Message copied
+</div>
+
+<script>
+    document.querySelectorAll(".copy-message").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var p = btn.closest(".ctext-wrap").querySelector(".ctext-content");
+            if (!p) return;
+            navigator.clipboard.writeText(p.innerText || "");
+            var alertEl = document.getElementById("copyClipBoard");
+            if (alertEl) {
+                alertEl.style.display = "block";
+                setTimeout(function(){ alertEl.style.display = "none"; }, 1000);
+            }
+        });
+    });
+</script>

@@ -1,20 +1,46 @@
-﻿@using WebMVC.Models
-@model UserChatsViewModel
-
+﻿@model WebMVC.Models.UserChatsViewModel
+@{
+    ViewData["Title"] = "Chat";
+    var hasSelectedChat = Model?.GetChatMessagesResponse?.ChatInfo?.ChatId != Guid.Empty;
+    var chatInfo = Model?.GetChatMessagesResponse?.ChatInfo;
+}
 
 <div class="container-fluid">
     <div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
         <div class="chat-leftsidebar">
-            <partial name="Partials/Chat/_Search" />
-            <partial name="Partials/Chat/_Tabs" />
-            <div class="tab-content text-muted">
-                <partial name="Partials/Chat/_ChatsTab" model="@Model.GetUserChatsResponse" />
-                <partial name="Partials/Chat/_ContactsTab" />
-            </div>
-            <!-- end tab contact -->
+            <partial name="Partials/_ChatSidebar" model="Model?.GetUserChatsResponse" />
         </div>
-        <!-- end chat leftsidebar -->
-        <partial name="Partials/Chat/_UserChat" model="@Model.GetChatMessagesResponse" />
 
+        <div class="user-chat w-100 overflow-hidden">
+            <div class="chat-content d-lg-flex">
+                <div class="w-100 overflow-hidden position-relative">
+                    <div class="position-relative" id="users-chat">
+                        @if (hasSelectedChat)
+                        {
+                            <partial name="Partials/_ChatTopbar" model="chatInfo" />
+
+                            <div class="chat-conversation p-3 p-lg-4" id="users-chat-conversation" data-simplebar>
+                                <partial name="Partials/_ChatConversationList"
+                                         model="Model?.GetChatMessagesResponse?.Messages
+                                                                                          ?? new List<Application.Features.Messages.Queries.GetChatMessages.MessageDto>()" />
+                        </div>
+
+                            <partial name="Partials/_ChatInput" model="chatInfo" />
+                                                }
+                        else
+                        {
+                            <div class="p-5 text-center text-muted">Bir sohbet seçin.</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
+@section Scripts {
+    <script src="~/js/chat-ui.js" asp-append-version="true"></script>
+    <script>window.ChatUI && window.ChatUI.init();</script>
+}

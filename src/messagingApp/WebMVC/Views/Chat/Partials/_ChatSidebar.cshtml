@@ -1,0 +1,107 @@
+﻿@model Application.Features.Chats.Queries.GetUserChats.GetUserChatsResponse
+
+<div class="px-4 pt-4 mb-4">
+    <div class="d-flex align-items-start">
+        <div class="flex-grow-1"><h5 class="mb-4">Chats</h5></div>
+        <div class="flex-shrink-0">
+            <button type="button" class="btn btn-soft-success btn-sm shadow-none" title="Add Contact">
+                <i class="ri-add-line align-bottom"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <input type="text" class="form-control bg-light border-light" placeholder="Search here..." id="searchMessage" onkeyup="searchMessages()">
+        <i class="ri-search-2-line search-icon"></i>
+    </div>
+</div>
+
+<ul class="nav nav-tabs nav-tabs-custom nav-success nav-justified" role="tablist">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#chats" role="tab">Chats</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#contacts" role="tab">Contacts</a></li>
+</ul>
+
+<div class="tab-content text-muted">
+    <div class="tab-pane active" id="chats" role="tabpanel">
+        <div class="chat-room-list pt-3" data-simplebar>
+            <div class="d-flex align-items-center px-4 mb-2">
+                <div class="flex-grow-1"><h4 class="mb-0 fs-11 text-muted text-uppercase">Direct Messages</h4></div>
+                <div class="flex-shrink-0">
+                    <button type="button" class="btn btn-soft-success btn-sm" title="New Message">
+                        <i class="ri-add-line align-bottom"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-message-list">
+                <ul class="list-unstyled chat-list chat-user-list" id="userList">
+                    @foreach (var dm in (Model?.DirectMessages ?? new List<Application.Features.Chats.Queries.GetUserChats.ChatSummaryDto>()))
+                    {
+                        <li data-name="direct-message">
+                            <a class="" href="@Url.Action("Index", "Chat", new { selectedChatId = dm.ChatId })">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 chat-user-img align-self-center me-2 ms-0">
+                                        <div class="avatar-xxs">
+                                            @if (!string.IsNullOrWhiteSpace(dm.ImageUrl))
+                                            {
+                                                <img src="@dm.ImageUrl" class="rounded-circle img-fluid userprofile" alt="">
+                                            }
+                                            else
+                                            {
+                                                <div class="avatar-title rounded-circle bg-primary text-white fs-10">
+                                                    @dm.Name?.Substring(0, 1)
+                                                </div>
+                                            }
+                                            <span class="user-status"></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-truncate mb-0">@dm.Name</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center px-4 mt-4 pt-2 mb-2">
+                <div class="flex-grow-1"><h4 class="mb-0 fs-11 text-muted text-uppercase">Channels</h4></div>
+                <div class="flex-shrink-0">
+                    <button type="button" class="btn btn-soft-success btn-sm" title="Create group">
+                        <i class="ri-add-line align-bottom"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-message-list">
+                <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
+                    @foreach (var ch in (Model?.Channels ?? new List<Application.Features.Chats.Queries.GetUserChats.ChatSummaryDto>()))
+                    {
+                        <li data-name="channel">
+                            <a class="" href="@Url.Action("Index", "Chat", new { selectedChatId = ch.ChatId })">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 chat-user-img align-self-center me-2 ms-0">
+                                        <div class="avatar-xxs">
+                                            <div class="avatar-title bg-light rounded-circle text-body">#</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-truncate mb-0">@ch.Name</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="contacts" role="tabpanel">
+        <div class="chat-room-list pt-3" data-simplebar>
+            <div class="sort-contact">
+            </div>
+        </div>
+    </div>
+</div>
