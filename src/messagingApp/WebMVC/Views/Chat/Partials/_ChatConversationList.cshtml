@@ -32,7 +32,7 @@
                     <div class="conversation-name">
                         <span class="d-none name">@m.SenderName</span>
                         <small class="text-muted time">@m.CreatedAt.ToString("HH:mm")</small>
-                        <span class="text-success check-message-icon"><i class="bx bx-check-double"></i></span>
+                        <span class="text-success check-message-icon"><i class="bx bx-check"></i></span>
                     </div>
                 </div>
             </div>
@@ -44,17 +44,3 @@
     Message copied
 </div>
 
-<script>
-    document.querySelectorAll(".copy-message").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            var p = btn.closest(".ctext-wrap").querySelector(".ctext-content");
-            if (!p) return;
-            navigator.clipboard.writeText(p.innerText || "");
-            var alertEl = document.getElementById("copyClipBoard");
-            if (alertEl) {
-                alertEl.style.display = "block";
-                setTimeout(function(){ alertEl.style.display = "none"; }, 1000);
-            }
-        });
-    });
-</script>

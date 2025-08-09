@@ -23,8 +23,7 @@
 
                             <div class="chat-conversation p-3 p-lg-4" id="users-chat-conversation" data-simplebar>
                                 <partial name="Partials/_ChatConversationList"
-                                         model="Model?.GetChatMessagesResponse?.Messages
-                                                                                          ?? new List<Application.Features.Messages.Queries.GetChatMessages.MessageDto>()" />
+                                         model="Model?.GetChatMessagesResponse?.Messages?? new List<Application.Features.Messages.Queries.GetChatMessages.MessageDto>()" />
                         </div>
 
                             <partial name="Partials/_ChatInput" model="chatInfo" />
@@ -44,5 +43,6 @@
 
 @section Scripts {
     <script src="~/js/chat-ui.js" asp-append-version="true"></script>
+    <script src="~/js/chat.js" asp-append-version="true"></script>
     <script>window.ChatUI && window.ChatUI.init();</script>
 }
