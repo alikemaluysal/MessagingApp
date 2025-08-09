@@ -37,7 +37,7 @@
                 <ul class="list-unstyled chat-list chat-user-list" id="userList">
                     @foreach (var dm in (Model?.DirectMessages ?? new List<Application.Features.Chats.Queries.GetUserChats.ChatSummaryDto>()))
                     {
-                        <li data-name="direct-message">
+                        <li class="@(ViewBag.SelectedChatId == dm.ChatId ? "active" : "")" data-name="direct-message">
                             <a class="" href="@Url.Action("Index", "Chat", new { selectedChatId = dm.ChatId })">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0 chat-user-img align-self-center me-2 ms-0">
@@ -78,7 +78,7 @@
                 <ul class="list-unstyled chat-list chat-user-list mb-0" id="channelList">
                     @foreach (var ch in (Model?.Channels ?? new List<Application.Features.Chats.Queries.GetUserChats.ChatSummaryDto>()))
                     {
-                        <li data-name="channel">
+                        <li class="@(ViewBag.SelectedChatId == ch.ChatId ? "active" : "")" data-name="channel">
                             <a class="" href="@Url.Action("Index", "Chat", new { selectedChatId = ch.ChatId })">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0 chat-user-img align-self-center me-2 ms-0">
