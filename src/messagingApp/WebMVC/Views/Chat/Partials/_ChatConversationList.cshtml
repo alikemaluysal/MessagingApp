@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="conversation-name">
-                        <span class="d-none name">@m.SenderName</span>
+                        <span class="@(ViewBag.IsGroup && !m.IsSender ? "" : "d-none") name">@m.SenderName</span>
                         <small class="text-muted time">@m.CreatedAt.ToString("HH:mm")</small>
                         <span class="text-success check-message-icon"><i class="bx bx-check"></i></span>
                     </div>

@@ -4,13 +4,15 @@ using Application.Features.Messages.Queries.GetChatMessages;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
+using WebMVC.Hubs;
 using WebMVC.Models;
 
 namespace WebMVC.Controllers;
 
 [Authorize]
-public class ChatController(IMediator mediator) : Controller
+public class ChatController(IMediator mediator, IHubContext<ChatHub> hub) : Controller
 {
     public async Task<IActionResult> Index([FromQuery] Guid selectedChatId)
     {
@@ -45,11 +47,17 @@ public class ChatController(IMediator mediator) : Controller
     public async Task<IActionResult> SendMessage([FromBody] SendMessageCommand command)
     {
 
+        var chatId = command.ChatId;
         command.SenderId = getUserId();
 
         try
         {
             var response = await mediator.Send(command);
+
+            //TODO: application tarafına taşı
+            await hub.Clients.Group(chatId.ToString())
+                .SendAsync("ReceiveMessage", response);
+
             return Ok(response);
 
         }

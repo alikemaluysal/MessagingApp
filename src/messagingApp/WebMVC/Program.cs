@@ -1,12 +1,17 @@
 using Application;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Persistence;
+using WebMVC.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
+
+builder.Services.AddSignalR();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
            .AddCookie(options =>
@@ -42,5 +47,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Chat}/{action=Index}/{id?}");
+
+
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

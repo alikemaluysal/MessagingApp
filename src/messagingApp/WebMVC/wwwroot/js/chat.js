@@ -6,7 +6,8 @@
     const senderName = msg.senderName ;
     const avatar = msg.senderImageUrl;
 
-    console.log(time);
+    console.log('is group: ', typeof(isGroup));
+    console.log('is group: ', isGroup);
 
     return `
             <li class="chat-list ${isMine ? "right" : "left"}">
@@ -30,6 +31,7 @@
 
 function appendMessage(msg, currentUserId, isGroup) {
 
+    console.log("append message")
     console.log(msg);
 
     var ul = document.getElementById("users-conversation");
