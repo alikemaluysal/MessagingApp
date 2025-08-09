@@ -32,7 +32,8 @@ public class LoginCommand : IRequest<LoggedInCommandResponse>
                 UserName = user.UserName,
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                IsVerified = user.IsVerified
+                IsVerified = user.IsVerified,
+                ProfileImageUrl = user.ProfileImageUrl
             };
 
             return response;

@@ -30,6 +30,7 @@ public class AuthController(IMediator mediator) : Controller
                 new Claim("DisplayName", response.DisplayName),
                 new Claim(ClaimTypes.Email, response.Email),
                 new Claim("IsVerified", response.IsVerified.ToString()),
+                new Claim("ProfileImageUrl", response.ProfileImageUrl ?? ""),
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -43,7 +44,7 @@ public class AuthController(IMediator mediator) : Controller
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Chat");
         }
         catch (Exception e)
         {
@@ -56,7 +57,7 @@ public class AuthController(IMediator mediator) : Controller
     public async Task<IActionResult> LogoutAsync()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Chat");
     }
 
 
