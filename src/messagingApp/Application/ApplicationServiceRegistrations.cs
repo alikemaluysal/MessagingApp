@@ -1,4 +1,5 @@
 ﻿using Application.Features.Auth.Rules;
+using Application.Features.Chats.Rules;
 using Application.Features.Messages.Rules;
 using Application.Repositories;
 using FluentValidation;
@@ -21,6 +22,7 @@ public static class ApplicationServiceRegistrations
 
         services.AddScoped<AuthBusinessRules>();
         services.AddScoped<MessagesBusinessRules>();
+        services.AddScoped<ChatsBusinessRules>();
 
         return services;
     }

@@ -96,6 +96,7 @@ public class ChatController(IMediator mediator, IHubContext<ChatHub> hub) : Cont
         }
         catch (Exception e)
         {
+            TempData["ErrorMessage"] = e.Message;
             return RedirectToAction(nameof(Index));
         }
     }

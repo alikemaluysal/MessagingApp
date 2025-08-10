@@ -1,4 +1,5 @@
-﻿using Application.Repositories;
+﻿using Application.Features.Chats.Rules;
+using Application.Repositories;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,8 @@ public class GetOrCreateDirectMessageChatCommand : IRequest<Guid>
 
     public class Handler(
         IChatRepository chatRepository,
-        IUserRepository userRepository
+        IUserRepository userRepository,
+        ChatsBusinessRules rules
         ) : IRequestHandler<GetOrCreateDirectMessageChatCommand, Guid>
     {
         public async Task<Guid> Handle(GetOrCreateDirectMessageChatCommand request, CancellationToken cancellationToken)
@@ -21,13 +23,8 @@ public class GetOrCreateDirectMessageChatCommand : IRequest<Guid>
 
             var secondUser = await userRepository.GetAsync(u => u.UserName == request.SecondParticipantName);
 
-
-            //TODO: business rule classına taşı
-            if (secondUser is null)
-                throw new ArgumentException("Second participant not found.");
-
-            if (request.FirstParticipantId == secondUser.Id)
-                throw new ArgumentException("Participants must be different.");
+            rules.CheckIfUserExists(secondUser); 
+            rules.CheckIfUserIsNotSelf(request.FirstParticipantId, secondUser.Id);
 
             var existingChat = await chatRepository
                 .Query()

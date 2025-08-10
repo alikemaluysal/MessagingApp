@@ -10,16 +10,25 @@
     ViewBag.IsGroup = Model?.GetChatMessagesResponse?.ChatInfo.IsGroup ?? false;
 }
 
+
+
 <div class="container-fluid">
+
+
+
     <div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
         <div class="chat-leftsidebar">
             <partial name="Partials/_ChatSidebar" model="Model?.GetUserChatsResponse" />
         </div>
 
+
         <div class="user-chat w-100 overflow-hidden">
+
+
             <div class="chat-content d-lg-flex">
                 <div class="w-100 overflow-hidden position-relative">
                     <div class="position-relative" id="users-chat">
+
                         @if (hasSelectedChat)
                         {
                             <partial name="Partials/_ChatTopbar" model="chatInfo" />
@@ -38,6 +47,12 @@
                         }
                         else
                         {
+                            @if (TempData["ErrorMessage"] is not null)
+                            {
+                                <div class="alert alert-danger mb-3">@TempData["ErrorMessage"]</div>
+
+                            }
+
                             <div class="p-5 text-center text-muted">Bir sohbet seçin.</div>
                         }
                     </div>
