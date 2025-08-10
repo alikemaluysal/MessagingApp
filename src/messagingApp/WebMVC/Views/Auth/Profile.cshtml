@@ -30,7 +30,8 @@
                                        id="profile-img-file-input"
                                        class="profile-img-file-input"
                                        type="file"
-                                       accept="image/*" />
+                                       accept="image/*"
+                                       form="updateProfileForm" />
                                 <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                                     <span class="avatar-title rounded-circle bg-light text-body shadow">
                                         <i class="ri-camera-fill"></i>
@@ -69,7 +70,8 @@
 
                         <!-- Profil Bilgileri -->
                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                            <form asp-controller="Auth" asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+                            <form id="updateProfileForm"
+                                  asp-controller="Auth" asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
 
                                 <input asp-for="Profile.Id" type="hidden" />

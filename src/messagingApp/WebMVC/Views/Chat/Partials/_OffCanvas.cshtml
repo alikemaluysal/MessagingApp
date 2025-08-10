@@ -122,12 +122,22 @@
                                     <div class="flex-shrink-0 ms-2">
                                         <div class="d-flex gap-1">
                                             <div class="dropdown">
-                                                <button class="btn btn-icon text-muted btn-sm fs-18 shadow-none dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ri-more-fill"></i>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#"><i class="ri-delete-bin-line align-bottom me-2 text-muted"></i> Remove</a></li>
-                                                </ul>
+
+
+                                                @if (ViewBag.CurrentUserId is not null && ViewBag.CurrentUserId != @user.UserId.ToString())
+                                                {
+                                                    <button class="btn btn-icon text-muted btn-sm fs-18 shadow-none dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-fill"></i>
+                                                    </button>
+
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" asp-action="DirectMessage" asp-route-userName="@user.UserName" asp-controller="Chat"><i class="ri-chat-1-line align-bottom me-2 text-muted"></i> Direct Message</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="ri-delete-bin-line align-bottom me-2 text-muted"></i> Remove</a></li>
+
+                                                    </ul>
+
+                                                }
+
                                             </div>
                                         </div>
                                     </div>
@@ -154,30 +164,30 @@
     <!--end offcanvas-->
 }
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
 
-            const copyBtn = document.querySelector(".copy-link");
-            const href = copyBtn.getAttribute("href");
+        const copyBtn = document.querySelector(".copy-link");
+        const href = copyBtn.getAttribute("href");
 
-            copyBtn.addEventListener("click", async (e) => {
-                e.preventDefault();
-                try {
-                    await navigator.clipboard.writeText(href);
+        copyBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            try {
+                await navigator.clipboard.writeText(href);
 
-                    const tooltip = bootstrap.Tooltip.getInstance(copyBtn);
-                    tooltip.setContent({ '.tooltip-inner': 'Kopyalandı!' });
-                    tooltip.show();
+                const tooltip = bootstrap.Tooltip.getInstance(copyBtn);
+                tooltip.setContent({ '.tooltip-inner': 'Kopyalandı!' });
+                tooltip.show();
 
-                    setTimeout(() => {
-                        tooltip.setContent({ '.tooltip-inner': 'Copy to clipboard' });
-                    }, 2000);
-                } catch (err) {
-                    console.error("Kopyalama hatası:", err);
-                }
-            });
+                setTimeout(() => {
+                    tooltip.setContent({ '.tooltip-inner': 'Copy to clipboard' });
+                }, 2000);
+            } catch (err) {
+                console.error("Kopyalama hatası:", err);
+            }
         });
-    </script>
+    });
+</script>
 

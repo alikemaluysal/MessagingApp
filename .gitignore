@@ -416,3 +416,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+#FileAPI images
+external_services/FileAPI/wwwroot/images/

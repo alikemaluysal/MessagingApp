@@ -29,6 +29,7 @@ public class SendMessageCommand : IRequest<MessageDto>
 
             await rules.CheckIfUserExistsAsync(request.SenderId);
             await rules.CheckIfChatExistsAsync(request.ChatId);
+            await rules.CheckIfUserVerifiedAsync(request.SenderId);
 
 
 

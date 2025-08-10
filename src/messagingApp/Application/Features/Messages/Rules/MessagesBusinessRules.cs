@@ -20,10 +20,19 @@ public class MessagesBusinessRules(IUserRepository userRepository, IChatReposito
             throw new Exception(MessagesMessages.UserNotFound);
     }
 
+
+    public async Task CheckIfUserVerifiedAsync(Guid userId)
+    {
+        if (!await userRepository.AnyAsync(c => c.Id == userId && c.IsVerified))
+            throw new Exception(MessagesMessages.NotVerified);
+    }
+
     public async Task CheckIfChatExistsAsync(Guid chatId)
     {
         if (!await chatRepository.AnyAsync(c => c.Id == chatId))
             throw new Exception(MessagesMessages.ChatNotFound);
     }
+
+
 
 }
