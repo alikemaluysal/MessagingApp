@@ -25,9 +25,15 @@ public class AuthBusinessRules(IUserRepository userRepository)
     }
 
 
-    public async Task CheckIfUserNameUnique(string userName)
+    public async Task CheckIfUserNameUniqueWhenRegistered(string userName)
     {
         if (await userRepository.AnyAsync(u => u.UserName == userName))
+            throw new Exception(AuthMessages.UserNameAlreadyExists);
+    }
+
+    public async Task CheckIfUserNameUniqueWhenUpdated(string userName, Guid userId)
+    {
+        if (await userRepository.AnyAsync(u => u.UserName == userName && u.Id != userId))
             throw new Exception(AuthMessages.UserNameAlreadyExists);
     }
 

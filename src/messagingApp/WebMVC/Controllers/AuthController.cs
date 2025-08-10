@@ -1,5 +1,6 @@
 ﻿using Application.Features.Auth.Commands.Login;
 using Application.Features.Auth.Commands.Register;
+using Application.Features.Auth.Commands.UpdateProfile;
 using Application.Features.Auth.Queries.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -88,7 +89,7 @@ public class AuthController(IMediator mediator) : Controller
 
     [HttpGet("Profile")]
     [Authorize]
-    public async Task<IActionResult> ProfileAsync()
+    public async Task<IActionResult> Profile()
     {
 
         try
@@ -116,6 +117,32 @@ public class AuthController(IMediator mediator) : Controller
 
     }
 
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> UpdateProfileAsync(ProfileSettingsViewModel model)
+    {
+        try
+        {
+            var userId = getUserId();
+            var query = new UpdateProfileCommand
+            {
+                UserId = userId,
+                DisplayName = model.Profile.DisplayName,
+                UserName = model.Profile.UserName,
+                ProfilePicture = model.Profile.ProfileImage
+            };
+
+            var user = await mediator.Send(query);
+
+              return RedirectToAction(nameof(Profile));
+
+        }
+        catch (Exception e)
+        {
+            return RedirectToAction(nameof(Login));
+        }
+    }
 
     private Guid getUserId()
     {

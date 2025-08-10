@@ -69,8 +69,7 @@
 
                         <!-- Profil Bilgileri -->
                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                            <form asp-controller="Account" asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
-                                @Html.AntiForgeryToken()
+                            <form asp-controller="Auth" asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
 
                                 <input asp-for="Profile.Id" type="hidden" />
@@ -80,7 +79,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label asp-for="Profile.UserName" class="form-label"></label>
-                                            <input asp-for="Profile.UserName" class="form-control" readonly />
+                                            <input asp-for="Profile.UserName" class="form-control"  />
                                             <span asp-validation-for="Profile.UserName" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -96,7 +95,7 @@
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <label asp-for="Profile.Email" class="form-label"></label>
-                                            <input asp-for="Profile.Email" class="form-control" />
+                                            <input asp-for="Profile.Email" class="form-control" readonly />
                                             <span asp-validation-for="Profile.Email" class="text-danger"></span>
                                         </div>
                                     </div>

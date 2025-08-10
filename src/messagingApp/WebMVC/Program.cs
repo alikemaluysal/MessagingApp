@@ -1,6 +1,7 @@
 using Application;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Persistence;
+using Infrastructure;
 using WebMVC.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddSignalR();
 
