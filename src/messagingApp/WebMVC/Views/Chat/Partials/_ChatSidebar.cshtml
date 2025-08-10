@@ -83,7 +83,15 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0 chat-user-img align-self-center me-2 ms-0">
                                         <div class="avatar-xxs">
-                                            <div class="avatar-title bg-light rounded-circle text-body">#</div>
+                                            @if (!string.IsNullOrWhiteSpace(ch.ImageUrl))
+                                            {
+                                                <img src="@ch.ImageUrl" class="rounded-circle img-fluid userprofile" alt="">
+                                            }
+                                            else
+                                            {
+                                                <div class="avatar-title bg-light rounded-circle text-body">#</div>
+                                            }
+
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 overflow-hidden">

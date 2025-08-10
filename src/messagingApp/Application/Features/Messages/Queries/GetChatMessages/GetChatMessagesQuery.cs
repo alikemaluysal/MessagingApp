@@ -50,6 +50,47 @@ public class GetChatMessagesQuery : IRequest<GetChatMessagesResponse>
                 })
                 .FirstOrDefaultAsync(ct);
 
+
+            if (chatInfo.IsGroup)
+            {
+                chatInfo.ChannelInfoDto = new ChannelInfoDto
+                {
+                    Users = await chatRepository
+                        .Query()
+                        .AsNoTracking()
+                        .Where(c => c.Id == request.ChatId)
+                        .SelectMany(c => c.Participants.Select(p => new UserInfoDto
+                        {
+                            UserId = p.UserId,
+                            UserName = p.User.UserName,
+                            DisplayName = p.User.DisplayName,
+                            EmailAddress = p.User.Email,
+                            ProfileImageUrl = p.User.ProfileImageUrl
+                        }))
+                        .ToListAsync(ct)
+                };
+            }
+            else
+            {
+                 chatInfo.UserInfoDto = await chatRepository
+                    .Query()
+                    .AsNoTracking()
+                    .Where(c => c.Id == request.ChatId)
+                    .Select(c => c.Participants
+                        .Where(p => p.UserId != request.UserId)
+                        .Select(p => new UserInfoDto
+                        {
+                            UserId = p.UserId,
+                            UserName = p.User.UserName,
+                            DisplayName = p.User.DisplayName,
+                            EmailAddress = p.User.Email,
+                            ProfileImageUrl = p.User.ProfileImageUrl
+
+                        })
+                        .FirstOrDefault())
+                    .FirstOrDefaultAsync(ct);
+            }
+
             if (chatInfo is null)
                 throw new Exception("Sohbet bulunamadı.");
 
