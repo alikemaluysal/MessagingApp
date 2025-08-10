@@ -63,11 +63,17 @@
     </div>
 </div>
 
+
+
 <partial name="Partials/_CreateDirectMessage" />
 <partial name="Partials/_CreateChannel" model="new CreateChannelModel()"/>
 
+<partial name="Partials/_OffCanvas" model="@chatInfo" />
+
 
 @section Scripts {
+
+
     <script src="~/js/chat-ui.js" asp-append-version="true"></script>
     <script src="~/js/chat.js" asp-append-version="true"></script>
     <script src="~/js/chat-signalR.js" asp-append-version="true"></script>
