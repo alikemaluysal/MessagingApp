@@ -1,0 +1,182 @@
+﻿@model WebMVC.Models.ProfileSettingsViewModel
+@{
+    ViewData["Title"] = "Profil Ayarları";
+}
+
+<div class="container-fluid">
+
+    <!-- Kapak -->
+    <div class="position-relative mx-n4 mt-n4">
+        <div class="profile-wid-bg profile-setting-img">
+            <img src="/assets/images/profile-bg.jpg" class="profile-wid-img" alt="cover">
+            <!-- Kapak upload'ı kaldırıldı; istenirse eklenir -->
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sol kolon: Avatar -->
+        <div class="col-xxl-3">
+            <div class="card mt-n5">
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                            <img id="avatarPreview"
+                                 src="@(Model.Profile.ExistingImageUrl ?? "/assets/images/users/avatar-1.jpg")"
+                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow"
+                                 alt="user-profile-image" />
+
+                            <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                <input asp-for="Profile.ProfileImage"
+                                       id="profile-img-file-input"
+                                       class="profile-img-file-input"
+                                       type="file"
+                                       accept="image/*" />
+                                <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                    <span class="avatar-title rounded-circle bg-light text-body shadow">
+                                        <i class="ri-camera-fill"></i>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <h5 class="fs-16 mb-1">@Model.Profile.DisplayName</h5>
+                        <p class="text-muted mb-0">@Model.Profile.UserName</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Sol -->
+        <!-- Sağ kolon: Sekmeler -->
+        <div class="col-xxl-9">
+            <div class="card mt-xxl-n5">
+                <div class="card-header">
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
+                                <i class="fas fa-user"></i> Kişisel Bilgiler
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab">
+                                <i class="ri-key-2-line"></i> Şifre Değiştir
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="tab-content">
+
+                        <!-- Profil Bilgileri -->
+                        <div class="tab-pane active" id="personalDetails" role="tabpanel">
+                            <form asp-controller="Account" asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+                                @Html.AntiForgeryToken()
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                                <input asp-for="Profile.Id" type="hidden" />
+                                <input asp-for="Profile.ExistingImageUrl" type="hidden" />
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label asp-for="Profile.UserName" class="form-label"></label>
+                                            <input asp-for="Profile.UserName" class="form-control" readonly />
+                                            <span asp-validation-for="Profile.UserName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label asp-for="Profile.DisplayName" class="form-label"></label>
+                                            <input asp-for="Profile.DisplayName" class="form-control" />
+                                            <span asp-validation-for="Profile.DisplayName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label asp-for="Profile.Email" class="form-label"></label>
+                                            <input asp-for="Profile.Email" class="form-control" />
+                                            <span asp-validation-for="Profile.Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 d-flex align-items-end">
+                                        <div class="form-check form-switch">
+                                            <input asp-for="Profile.IsVerified" class="form-check-input" id="isVerifiedSwitch" type="checkbox" disabled />
+                                            <label class="form-check-label" for="isVerifiedSwitch">Doğrulanmış</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="submit" class="btn btn-primary">Güncelle</button>
+                                            <a asp-controller="Account" asp-action="Profile" class="btn btn-soft-success">İptal</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /Profil Bilgileri -->
+                        <!-- Şifre Değiştir -->
+                        <div class="tab-pane" id="changePassword" role="tabpanel">
+                            <form asp-controller="Account" asp-action="ChangePassword" method="post">
+                                @Html.AntiForgeryToken()
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                                <div class="row g-2">
+                                    <div class="col-lg-4">
+                                        <label asp-for="Password.CurrentPassword" class="form-label"></label>
+                                        <input asp-for="Password.CurrentPassword" class="form-control" autocomplete="current-password" />
+                                        <span asp-validation-for="Password.CurrentPassword" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label asp-for="Password.NewPassword" class="form-label"></label>
+                                        <input asp-for="Password.NewPassword" class="form-control" autocomplete="new-password" />
+                                        <span asp-validation-for="Password.NewPassword" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label asp-for="Password.ConfirmNewPassword" class="form-label"></label>
+                                        <input asp-for="Password.ConfirmNewPassword" class="form-control" autocomplete="new-password" />
+                                        <span asp-validation-for="Password.ConfirmNewPassword" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="text-end mt-2">
+                                            <button type="submit" class="btn btn-success">Şifreyi Değiştir</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /Şifre Değiştir -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Sağ -->
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Avatar önizleme
+        (function () {
+            const input = document.getElementById('profile-img-file-input');
+            const img = document.getElementById('avatarPreview');
+            if (input && img) {
+                input.addEventListener('change', function () {
+                    if (this.files && this.files[0]) {
+                        const url = URL.createObjectURL(this.files[0]);
+                        img.src = url;
+                        img.onload = () => URL.revokeObjectURL(url);
+                    }
+                });
+            }
+        })();
+    </script>
+}
