@@ -1,5 +1,6 @@
 ﻿using Application.Features.Chats.Commands.CreateChannel;
 using Application.Features.Chats.Commands.GetOrCreateDirectMessageChat;
+using Application.Features.Chats.Commands.JoinChannel;
 using Application.Features.Chats.Queries.GetUserChats;
 using Application.Features.Messages.Commands.SendMessage;
 using Application.Features.Messages.Queries.GetChatMessages;
@@ -125,6 +126,31 @@ public class ChatController(IMediator mediator, IHubContext<ChatHub> hub) : Cont
             return RedirectToAction(nameof(Index));
         }
     }
+
+
+    [HttpGet]
+    public async Task<IActionResult> JoinChannel([FromQuery] Guid channelId)
+    {
+        try
+        {
+            var command = new JoinChannelCommand
+            {
+                ChatId = channelId,
+                UserId = getUserId()
+            };
+
+            var chatId = await mediator.Send(command);
+
+
+            return RedirectToAction(nameof(Index), new { selectedChatId = chatId });
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = e.Message;
+            return RedirectToAction(nameof(Index));
+        }
+    }
+
 
     private Guid getUserId()
     {

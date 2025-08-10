@@ -2,7 +2,7 @@
 @model ChatInfoDto
 
 
-@if(Model is not null)
+@if (Model is not null)
 {
     <div class="offcanvas offcanvas-end border-0" tabindex="-1" id="userProfileCanvasExample">
         <!--end offcanvas-header-->
@@ -78,6 +78,24 @@
             else
             {
                 <div class="border-top border-top-dashed p-3">
+                    <div class="gap-2 text-center">
+
+                        <a asp-action="JoinChannel"
+                           asp-controller="Chat"
+                           asp-route-channelId="@Model.ChatId"
+                           asp-protocol="@Context.Request.Scheme"
+                           class="btn btn-outline-primary copy-link"
+                           data-bs-toggle="tooltip"
+                           data-bs-placement="top"
+                           title="Copy to clipboard">
+                            Copy Link
+                        </a>
+
+
+                    </div>
+
+
+
                     <h5 class="fs-15 mb-3">
                         Users
                         <span class="badge rounded-pill text-bg-secondary">@Model.ParticipantsCount</span>
@@ -135,4 +153,31 @@
     </div>
     <!--end offcanvas-->
 }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+
+            const copyBtn = document.querySelector(".copy-link");
+            const href = copyBtn.getAttribute("href");
+
+            copyBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                try {
+                    await navigator.clipboard.writeText(href);
+
+                    const tooltip = bootstrap.Tooltip.getInstance(copyBtn);
+                    tooltip.setContent({ '.tooltip-inner': 'Kopyalandı!' });
+                    tooltip.show();
+
+                    setTimeout(() => {
+                        tooltip.setContent({ '.tooltip-inner': 'Copy to clipboard' });
+                    }, 2000);
+                } catch (err) {
+                    console.error("Kopyalama hatası:", err);
+                }
+            });
+        });
+    </script>
 

@@ -10,4 +10,5 @@ public static class ChatMessages
 {
     public const string UserNotFound = "Kullanıcı bulunamadı.";
     public const string SelfDMError = "Kendi kendine sohbet başlatamazsın.";
+    public const string ChatNotFound = "Chat bulunamadı.";
 }
