@@ -4,7 +4,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.Chats.Commands.CreateChat;
+namespace Application.Features.Chats.Commands.GetOrCreateDirectMessageChat;
 
 public class GetOrCreateDirectMessageChatCommand : IRequest<Guid>
 {

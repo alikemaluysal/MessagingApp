@@ -8,6 +8,6 @@ namespace Application.Features.Chats.Constants;
 
 public static class ChatMessages
 {
-    public const string UserNotFound = "Kullanıcı adı veya şifre hatalı.";
+    public const string UserNotFound = "Kullanıcı bulunamadı.";
     public const string SelfDMError = "Kendi kendine sohbet başlatamazsın.";
 }

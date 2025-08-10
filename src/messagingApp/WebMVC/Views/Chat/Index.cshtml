@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using WebMVC.Models
 @model WebMVC.Models.UserChatsViewModel
 @{
     ViewData["Title"] = "Chat";
@@ -62,7 +63,8 @@
     </div>
 </div>
 
-<partial name="Partials/_CreateDirectMessage" model="chatInfo" />
+<partial name="Partials/_CreateDirectMessage" />
+<partial name="Partials/_CreateChannel" model="new CreateChannelModel()"/>
 
 
 @section Scripts {
